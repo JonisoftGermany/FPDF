@@ -1,3 +1,4 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <HTML>
 <HEAD>
 <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=ISO-8859-1">
@@ -24,18 +25,14 @@ Si vous souhaitez juste changer la taille courante, il est plus simple d'appeler
 SetFontSize().
 <BR>
 <BR>
-<B>Note : </B> pour les polices standard, il est nécessaire que les fichiers de métrique soient
-accessibles. Il y a trois possibilités pour cela :
-<BR>
-<BR>
+<B>Note :</B> il est nécessaire que les fichiers de métrique soient accessibles. Il sont
+recherchés successivement dans :
 <UL>
-<LI>Ils sont dans le répertoire courant (celui du script en cours d'exécution)
-<BR>
-<LI>Ils sont dans un des répertoires définis par le paramètre <TT>include_path</TT>
-<BR>
-<LI>Ils sont dans le répertoire défini par la constante <TT>FPDF_FONTPATH</TT>
+<LI>Le répertoire défini par la constante <TT>FPDF_FONTPATH</TT> (si cette constante est définie)
+<LI>Le répertoire <TT>font</TT> situé dans le répertoire de <TT>fpdf.php</TT> (s'il existe)
+<LI>Les répertoires accessibles par <TT>include()</TT>
 </UL>
-Exemple pour ce dernier cas (notez le slash final) :
+Exemple d'utilisation de <TT>FPDF_FONTPATH</TT> (notez le slash final obligatoire) :
 <BR>
 <BR>
 <TABLE WIDTH="100%" BGCOLOR="#E0E0E0"><TR><TD>
@@ -53,7 +50,7 @@ Famille de la police. Il peut s'agir d'un nom défini par AddFont() ou bien d'une
 standard :
 <UL>
 <LI><TT>Courier</TT> (caractères de largeur fixe)
-<LI><TT>Helvetica<TT> ou </TT>Arial</TT> (synonymes; sans serif)
+<LI><TT>Helvetica</TT> ou <TT>Arial</TT> (synonymes; sans serif)
 <LI><TT>Times</TT> (avec serif)
 <LI><TT>Symbol</TT> (symboles)
 <LI><TT>ZapfDingbats</TT> (symboles)
@@ -101,8 +98,7 @@ $pdf-&gt;SetFont('Times','BIU');
 <A HREF="cell.htm">Cell()</A>,
 <A HREF="multicell.htm">MultiCell()</A>,
 <A HREF="write.htm">Write()</A>.
-<H6></H6>
-<HR>
+<HR STYLE="margin-top:1.2em">
 <DIV ALIGN="CENTER"><A HREF="index.htm">Index</A></DIV>
 </BODY>
 </HTML>

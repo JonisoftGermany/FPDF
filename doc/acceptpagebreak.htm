@@ -1,3 +1,4 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <HTML>
 <HEAD>
 <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=ISO-8859-1">
@@ -54,7 +55,6 @@ function AcceptPageBreak()<BR>
 }<BR>
 <BR>
 $pdf=new PDF();<BR>
-$pdf-&gt;Open();<BR>
 $pdf-&gt;AddPage();<BR>
 $pdf-&gt;SetFont('Arial','',12);<BR>
 for($i=1;$i&lt;=300;$i++)<BR>
@@ -64,8 +64,7 @@ $pdf-&gt;Output();
 </TD></TR></TABLE><BR>
 <H4 CLASS='st'>Voir</H4>
 <A HREF="setautopagebreak.htm">SetAutoPageBreak()</A>.
-<H6></H6>
-<HR>
+<HR STYLE="margin-top:1.2em">
 <DIV ALIGN="CENTER"><A HREF="index.htm">Index</A></DIV>
 </BODY>
 </HTML>

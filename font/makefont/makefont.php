@@ -1,8 +1,8 @@
 <?php
 /*******************************************************************************
 * Utilitaire de génération de fichier de définition de police                  *
-* Version : 1.12                                                               *
-* Date :    30/12/2003                                                         *
+* Version : 1.13                                                               *
+* Date :    31/12/2004                                                         *
 *******************************************************************************/
 
 function ReadMap($enc)
@@ -17,15 +17,17 @@ function ReadMap($enc)
 	{
 		if($l{0}=='!')
 		{
-			$e=preg_split('/[ \\t]+/',chop($l));
+			$e=preg_split('/[ \\t]+/',rtrim($l));
 			$cc=hexdec(substr($e[0],1));
 			$gn=$e[2];
 			$cc2gn[$cc]=$gn;
 		}
 	}
 	for($i=0;$i<=255;$i++)
+	{
 		if(!isset($cc2gn[$i]))
 			$cc2gn[$i]='.notdef';
+	}
 	return $cc2gn;
 }
 
@@ -47,7 +49,7 @@ function ReadAFM($file,&$map)
 		'combiningacuteaccent'=>'acutecomb','combiningdotbelow'=>'dotbelowcomb','dongsign'=>'dong');
 	foreach($a as $l)
 	{
-		$e=explode(' ',chop($l));
+		$e=explode(' ',rtrim($l));
 		if(count($e)<2)
 			continue;
 		$code=$e[0];
@@ -64,8 +66,10 @@ function ReadAFM($file,&$map)
 			{
 				//Fix incorrect glyph name
 				foreach($map as $c=>$n)
+				{
 					if($n==$fix[$gn])
 						$map[$c]=$gn;
+				}
 			}
 			if(empty($map))
 			{
@@ -220,7 +224,7 @@ function MakeFontEncoding($map)
 			$s.='/'.$map[$i].' ';
 		}
 	}
-	return chop($s);
+	return rtrim($s);
 }
 
 function SaveToFile($file,$s,$mode='t')
@@ -295,6 +299,7 @@ function MakeFont($fontfile,$afmfile,$enc='cp1252',$patch=array(),$type='TrueTyp
 {
 	//Generate a font definition file
 	set_magic_quotes_runtime(0);
+	ini_set('auto_detect_line_endings','1');
 	if($enc)
 	{
 		$map=ReadMap($enc);
@@ -358,10 +363,21 @@ function MakeFont($fontfile,$afmfile,$enc='cp1252',$patch=array(),$type='TrueTyp
 		if($type=='Type1')
 		{
 			//Find first two sections and discard third one
+			$header=(ord($file{0})==128);
+			if($header)
+			{
+				//Strip first binary header
+				$file=substr($file,6);
+			}
 			$pos=strpos($file,'eexec');
 			if(!$pos)
 				die('<B>Error:</B> font file does not seem to be valid Type1');
 			$size1=$pos+6;
+			if($header and ord($file{$size1})==128)
+			{
+				//Strip second binary header
+				$file=substr($file,0,$size1).substr($file,$size1+6);
+			}
 			$pos=strpos($file,'00000000');
 			if(!$pos)
 				die('<B>Error:</B> font file does not seem to be valid Type1');
@@ -378,7 +394,7 @@ function MakeFont($fontfile,$afmfile,$enc='cp1252',$patch=array(),$type='TrueTyp
 		else
 		{
 			$s.='$file=\''.basename($fontfile)."';\n";
-			echo '<B>Notice:</B> font file could not be compressed (gzcompress not available)<BR>';
+			echo '<B>Notice:</B> font file could not be compressed (zlib extension not available)<BR>';
 		}
 		if($type=='Type1')
 		{

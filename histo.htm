@@ -6,6 +6,14 @@
 </HEAD>
 <BODY>
 <H2>Historique</H2>
+<B>v1.53</B> (31/12/2004)
+<BLOCKQUOTE>
+- Lorsque le sous-répertoire font se trouve dans le même répertoire que fpdf.php, il n'est maintenant plus nécessaire de définir la constante FPDF_FONTPATH.<BR>
+- Le tableau $HTTP_SERVER_VARS n'est plus utilisé. Cela pouvait poser des problèmes avec les configurations PHP 5 ayant désactivé l'option register_long_arrays.<BR>
+- L'incorporation des polices Type1 posait des problèmes avec certains processeurs de PDF.<BR>
+- Le nom du PDF envoyé au navigateur ne pouvait pas comporter d'espace.<BR>
+- La méthode Cell() ne pouvait pas imprimer le nombre 0 (seulement la chaîne '0').<BR>
+</BLOCKQUOTE>
 <B>v1.52</B> (30/12/2003)
 <BLOCKQUOTE>
 - Image() affiche maintenant l'image en 72 dpi si aucune dimension n'est indiquée.<BR>

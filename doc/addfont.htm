@@ -1,3 +1,4 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <HTML>
 <HEAD>
 <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=ISO-8859-1">
@@ -13,10 +14,9 @@
 Importe une police TrueType ou Type1 et la rend disponible. Il faut au préalable avoir généré un
 fichier de définition de police avec l'utilitaire makefont.php.
 <BR>
-Le fichier de définition (ainsi que le fichier de police en cas d'incorporation) doit être
-présent soit dans le répertoire courant, soit dans le répertoire indiqué par <TT>FPDF_FONTPATH</TT>
-si la constante est définie. S'il n'est pas trouvé, l'erreur "Could not include font definition
-file" est renvoyée.
+Le fichier de définition (ainsi que le fichier de police en cas d'incorporation) doit être présent
+dans le répertoire des polices. S'il n'est pas trouvé, l'erreur "Could not include font definition file"
+est renvoyée.
 <H4 CLASS='st'>Paramètres</H4>
 <TT><U>family</U></TT>
 <BLOCKQUOTE>
@@ -57,8 +57,7 @@ $pdf-&gt;AddFont('Comic','I','comici.php');
 </TD></TR></TABLE><BR>
 <H4 CLASS='st'>Voir</H4>
 <A HREF="setfont.htm">SetFont()</A>.
-<H6></H6>
-<HR>
+<HR STYLE="margin-top:1.2em">
 <DIV ALIGN="CENTER"><A HREF="index.htm">Index</A></DIV>
 </BODY>
 </HTML>
