@@ -104,7 +104,6 @@ liens sous forme textuelle, comme <A HREF="http://www.fpdf.org">
 www.fpdf.org</A>, ou bien sous forme d\'image : cliquez sur le logo.';
 
 $pdf=new PDF();
-$pdf->Open();
 //Première page
 $pdf->AddPage();
 $pdf->SetFont('Arial','',20);

@@ -75,7 +75,6 @@ function AjouterChapitre($num,$titre,$fichier)
 }
 
 $pdf=new PDF();
-$pdf->Open();
 $titre='Vingt mille lieues sous les mers';
 $pdf->SetTitle($titre);
 $pdf->SetAuthor('Jules Verne');

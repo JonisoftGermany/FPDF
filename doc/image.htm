@@ -6,15 +6,18 @@
 </HEAD>
 <BODY>
 <H2>Image</H2>
-<TT>Image(<B>string</B> file, <B>float</B> x, <B>float</B> y, <B>float</B> w [, <B>float</B> h [, <B>string</B> type [, <B>mixed</B> link]]])</TT>
+<TT>Image(<B>string</B> file, <B>float</B> x, <B>float</B> y [, <B>float</B> w [, <B>float</B> h [, <B>string</B> type [, <B>mixed</B> link]]]])</TT>
 <H4 CLASS='st'>Version</H4>
 1.1
 <H4 CLASS='st'>Description</H4>
-Imprime une image dans la page. Le coin supérieur gauche ainsi qu'au moins une des dimensions
-doivent être spécifiés; la hauteur ou la largeur peut être calculée automatiquement afin de
-respecter les proportions de l'image.
-<BR>
-<BR>
+Place une image dans la page. Le coin supérieur gauche doit être spécifié. Les dimensions
+peuvent être indiquées de plusieurs manières :
+<UL>
+<LI>largeur et hauteur explicites (exprimées dans l'unité utilisateur)
+<LI>une dimension explicite, l'autre étant calculée automatiquement afin de respecter les
+proportions de l'image originale
+<LI>aucune dimension explicite, auquel cas l'image est dimensionnée en 72 dpi
+</UL>
 Les formats supportés sont le JPEG et le PNG.
 <BR>
 <BR>
@@ -59,13 +62,13 @@ Ordonnée du coin supérieur gauche.
 </BLOCKQUOTE>
 <TT><U>w</U></TT>
 <BLOCKQUOTE>
-Largeur de l'image dans la page. Si elle est nulle, elle est calculée automatiquement afin de
-respecter les proportions d'origine.
+Largeur de l'image dans la page. Si elle n'est pas indiquée ou vaut zéro, elle est calculée
+automatiquement.
 </BLOCKQUOTE>
 <TT><U>h</U></TT>
 <BLOCKQUOTE>
 Hauteur de l'image dans la page. Si elle n'est pas indiquée ou vaut zéro, elle est calculée
-automatiquement afin de respecter les proportions d'origine.
+automatiquement.
 </BLOCKQUOTE>
 <TT><U>type</U></TT>
 <BLOCKQUOTE>

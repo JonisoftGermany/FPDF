@@ -6,12 +6,24 @@
 </HEAD>
 <BODY>
 <H2>Historique</H2>
+<B>v1.52</B> (30/12/2003)
+<BLOCKQUOTE>
+- Image() affiche maintenant l'image en 72 dpi si aucune dimension n'est indiquée.<BR>
+- Output() prend un second paramètre chaîne pour indiquer la destination.<BR>
+- Open() est maintenant appelé automatiquement par AddPage().<BR>
+- L'insertion d'image JPEG distante ne génère plus d'erreur.<BR>
+- Le séparateur décimal est forcé au point dans le constructeur.<BR>
+- Ajout de différents encodages (turc, thaïlandais, hébreu, ukrainien et vietnamien).<BR>
+- La dernière ligne d'un MultiCell() cadré à droite n'était pas bien alignée si elle se terminait par un retour-chariot.<BR>
+- Plus de message d'erreur sur les en-têtes déjà envoyés lorsque le PDF est généré sur la sortie standard en mode ligne de commande.<BR>
+- Le souligné allait trop loin lorsque le texte comportait les caractères \, ( ou ).<BR>
+- $HTTP_ENV_VARS a été remplacé par $HTTP_SERVER_VARS.<BR>
+</BLOCKQUOTE>
 <B>v1.51</B> (03/08/2002)
 <BLOCKQUOTE>
 - Support des polices Type1.<BR>
 - Ajout des encodages pour les pays baltes.<BR>
-- La classe travaille maintenant en interne en points avec l'origine en bas afin d'éviter deux bugs avec Acrobat 5 :<BR>&nbsp;&nbsp;* L'épaisseur des traits était trop importante lors des impressions sous Windows 98 SE et ME.<BR>&nbsp;&nbsp;* Les polices TrueType n'apparaissaient pas immédiatement avec le plug-in, il fallait provoquer un rafraîchissement de la fenêtre pour les voir apparaître.<BR>
-- Il n'est plus nécessaire que le séparateur décimal soit le point pour générer des documents valides.<BR>
+- La classe travaille maintenant en interne en points avec l'origine en bas afin d'éviter deux bugs avec Acrobat 5 :<BR>&nbsp;&nbsp;* L'épaisseur des traits était trop importante lors des impressions sous Windows 98 SE et ME.<BR>&nbsp;&nbsp;* Les polices TrueType n'apparaissaient pas immédiatement dans le plug-in (une police de substitution était utilisée), il fallait provoquer un rafraîchissement de la fenêtre pour les voir apparaître.<BR>
 - La zone cliquable dans une cellule était toujours positionnée à gauche indépendamment de l'alignement du texte.<BR>
 - Les images JPEG en mode CMYK apparaissaient en couleurs inversées.<BR>
 - Les images PNG transparentes en niveaux de gris ou couleurs vraies étaient incorrectement traitées.<BR>
