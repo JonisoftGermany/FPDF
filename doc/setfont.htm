@@ -1,6 +1,6 @@
 <HTML>
 <HEAD>
-<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=ISO-8859-1"> 
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=ISO-8859-1">
 <TITLE>SetFont</TITLE>
 <LINK TYPE="text/css" REL="stylesheet" HREF="../fpdf.css">
 </HEAD>
@@ -9,15 +9,18 @@
 <TT>SetFont(<B>string</B> family [, <B>string</B> style [, <B>double</B> size]])</TT>
 <H4>Description</H4>
 Fixe la police utilisée pour imprimer les chaînes de caractères. Il est obligatoire
-d'appeler cette fonction au moins une fois avant d'imprimer du texte, sinon le document
+d'appeler cette méthode au moins une fois avant d'imprimer du texte, sinon le document
 résultant ne sera pas valide.
 <BR>
-Si vous souhaitez simplement changer la taille courante, il est plus simple d'appeler
+La méthode peut être appelée avant que la première page ne soit créée et la police est
+conservée de page en page.
+<BR>
+Si vous souhaitez juste changer la taille courante, il est plus simple d'appeler
 SetFontSize().
 <BR>
 <BR>
-<B>Note : </B>à partir de la version 1.2, les fichiers de métrique des polices doivent
-être accessibles. Il y a trois possibilités pour cela :
+<B>Note : </B>il est nécessaire que les fichiers de métrique des polices soient accessibles.
+Il y a trois possibilités pour cela :
 <BR>
 <BR>
 <UL>
@@ -25,18 +28,17 @@ SetFontSize().
 <BR>
 <LI>Ils sont dans un des répertoires définis par le paramètre <TT>include_path</TT>
 <BR>
-<LI>Ils sont dans le répertoire défini par la constante FPDF_FONTPATH
+<LI>Ils sont dans le répertoire défini par la constante <TT>FPDF_FONTPATH</TT>
 </UL>
 Exemple pour ce dernier cas (notez le slash final) :
 <BR>
 <BR>
 <TABLE WIDTH="100%" BGCOLOR="#E0E0E0"><TR><TD>
-<PRE>
-define('FPDF_FONTPATH','/home/www/font/');
+<TT>
+define('FPDF_FONTPATH','/home/www/font/');<BR>
 require('fpdf.php');
-</PRE>
-</TD></TR></TABLE>
-<BR>
+</TT>
+</TD></TR></TABLE><BR>
 Si le fichier correspondant à la police demandée n'est pas trouvé, l'erreur "Could not include
 font metric file" est générée.
 <H4>Paramètres</H4>
@@ -57,7 +59,7 @@ conservée.
 <BLOCKQUOTE>
 Style de la police. Les valeurs possibles sont (indépendamment de la casse) :
 <UL>
-<LI><TT>(chaîne vide)</TT> : normal
+<LI>chaîne vide : normal
 <LI><TT>B</TT> : gras
 <LI><TT>I</TT> : italique
 <LI><TT>BI</TT> ou <TT>IB</TT> : gras italique
@@ -74,22 +76,22 @@ depuis le début du document, la valeur prise est 12.
 </BLOCKQUOTE>
 <H4>Exemple</H4>
 <TABLE WIDTH="100%" BGCOLOR="#E0E0E0"><TR><TD>
-<PRE>
-//Times normal 12
+<TT>
+//Times normal 12<BR>
+$pdf->SetFont('Times');<BR>
+//Arial gras 14<BR>
+$pdf->SetFont('Arial','B',14);<BR>
+//Enlève le gras<BR>
+$pdf->SetFont('');<BR>
+//Times normal 14<BR>
 $pdf->SetFont('Times');
-//Arial gras 14
-$pdf->SetFont('Arial','B',14);
-//Enlève le gras
-$pdf->SetFont('');
-//Times normal 14
-$pdf->SetFont('Times');
-</PRE>
-</TD></TR></TABLE>
+</TT>
+</TD></TR></TABLE><BR>
 <H4>Voir</H4>
 <A HREF="setfontsize.htm">SetFontSize()</A>,
-<A HREF="cell.htm">Cell()</A>.
-<BR>
-<BR>
+<A HREF="cell.htm">Cell()</A>,
+<A HREF="multicell.htm">MultiCell()</A>.
+<H6></H6>
 <HR>
 <DIV ALIGN="CENTER"><A HREF="index.htm">Index</A></DIV>
 </BODY>

@@ -1,12 +1,12 @@
 <HTML>
 <HEAD>
-<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=ISO-8859-1"> 
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=ISO-8859-1">
 <TITLE>Cell</TITLE>
 <LINK TYPE="text/css" REL="stylesheet" HREF="../fpdf.css">
 </HEAD>
 <BODY>
 <H2>Cell</H2>
-<TT>Cell(<B>double</B> w [, <B>double</B> h [, <B>string</B> txt [, <B>string</B> border [, <B>string</B> ln [, <B>string</B> align]]]]])</TT>
+<TT>Cell(<B>double</B> w [, <B>double</B> h [, <B>string</B> txt [, <B>int</B> border [, <B>int</B> ln [, <B>string</B> align [, <B>int</B> fill]]]]]])</TT>
 <H4>Description</H4>
 Imprime une cellule (zone rectangulaire) avec éventuellement un cadre et une chaîne de
 caractères. Le coin supérieur gauche de la cellule correspond à la position courante. Le
@@ -20,7 +20,8 @@ un saut de page est effectué avant de l'imprimer.
 <H4>Paramètres</H4>
 <TT><U>w</U></TT>
 <BLOCKQUOTE>
-Largeur de la cellule.
+Largeur de la cellule. Si elle vaut <TT>0</TT>, la cellule s'étend jusqu'à la marge droite de
+la page (la marge droite étant égale à la marge gauche).
 </BLOCKQUOTE>
 <TT><U>h</U></TT>
 <BLOCKQUOTE>
@@ -40,9 +41,7 @@ Valeur par défaut : 0.
 <TT><U>ln</U></TT>
 <BLOCKQUOTE>
 Indique si la position courante se décale à droite (0) ou passe à la ligne (1). Mettre 1
-est équivalent à appeler la méthode Ln() juste après Cell().
-<BR>
-Valeur par défaut : 0.
+est équivalent à appeler la méthode Ln() juste après Cell(). Valeur par défaut : 0.
 </BLOCKQUOTE>
 <TT><U>align</U></TT>
 <BLOCKQUOTE>
@@ -53,24 +52,32 @@ Permet de centrer ou d'aligner le texte. Les valeurs possibles sont :
 <LI><TT>R</TT> : alignement à droite
 </UL>
 </BLOCKQUOTE>
+<TT><U>fill</U></TT>
+<BLOCKQUOTE>
+Indique si le fond de la cellule doit être coloré (1) ou transparent (0).
+Valeur par défaut : 0.
+</BLOCKQUOTE>
 <H4>Exemple</H4>
 <TABLE WIDTH="100%" BGCOLOR="#E0E0E0"><TR><TD>
-<PRE>
-//Sélection de la police
-$pdf->SetFont('Arial','B',16);
-//Décalage de 8 cm à droite
-$pdf->Cell(80);
-//Texte centré dans une cellule 20*10 mm encadrée et retour à la ligne
+<TT>
+//Sélection de la police<BR>
+$pdf->SetFont('Arial','B',16);<BR>
+//Décalage de 8 cm à droite<BR>
+$pdf->Cell(80);<BR>
+//Texte centré dans une cellule 20*10 mm encadrée et retour à la ligne<BR>
 $pdf->Cell(20,10,'Titre',1,1,'C');
-</PRE>
-</TD></TR></TABLE>
+</TT>
+</TD></TR></TABLE><BR>
 <H4>Voir</H4>
 <A HREF="setfont.htm">SetFont()</A>,
+<A HREF="setdrawcolor.htm">SetDrawColor()</A>,
+<A HREF="setfillcolor.htm">SetFillColor()</A>,
+<A HREF="settextcolor.htm">SetTextColor()</A>,
 <A HREF="setlinewidth.htm">SetLineWidth()</A>,
 <A HREF="ln.htm">Ln()</A>,
+<A HREF="multicell.htm">MultiCell()</A>,
 <A HREF="setautopagebreak.htm">SetAutoPageBreak()</A>.
-<BR>
-<BR>
+<H6></H6>
 <HR>
 <DIV ALIGN="CENTER"><A HREF="index.htm">Index</A></DIV>
 </BODY>

@@ -1,14 +1,15 @@
 <HTML>
 <HEAD>
-<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=ISO-8859-1"> 
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=ISO-8859-1">
 <TITLE>Rect</TITLE>
 <LINK TYPE="text/css" REL="stylesheet" HREF="../fpdf.css">
 </HEAD>
 <BODY>
 <H2>Rect</H2>
-<TT>Rect(<B>double</B> x, <B>double</B> y, <B>double</B> w, <B>double</B> h)</TT>
+<TT>Rect(<B>double</B> x, <B>double</B> y, <B>double</B> w, <B>double</B> h [, <B>string</B> style])</TT>
 <H4>Description</H4>
-Trace un rectangle à partir de son coin supérieur gauche.
+Dessine un rectangle à partir de son coin supérieur gauche. Il peut être tracé, rempli ou les
+deux à la fois.
 <H4>Paramètres</H4>
 <TT><U>x</U></TT>
 <BLOCKQUOTE>
@@ -26,10 +27,20 @@ Largeur.
 <BLOCKQUOTE>
 Hauteur.
 </BLOCKQUOTE>
+<TT><U>style</U></TT>
+<BLOCKQUOTE>
+Manière de tracer le rectangle. Les valeurs possibles sont :
+<UL>
+<LI><TT>D</TT> ou chaîne vide : contour (draw). C'est la valeur par défaut.
+<LI><TT>F</TT> : remplissage (fill)
+<LI><TT>DF</TT> ou <TT>FD</TT> : contour et remplissage
+</UL>
+</BLOCKQUOTE>
 <H4>Voir</H4>
-<A HREF="setlinewidth.htm">SetLineWidth()</A>.
-<BR>
-<BR>
+<A HREF="setlinewidth.htm">SetLineWidth()</A>,
+<A HREF="setdrawcolor.htm">SetDrawColor()</A>,
+<A HREF="setfillcolor.htm">SetFillColor()</A>.
+<H6></H6>
 <HR>
 <DIV ALIGN="CENTER"><A HREF="index.htm">Index</A></DIV>
 </BODY>

@@ -1,0 +1,65 @@
+<HTML>
+<HEAD>
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=ISO-8859-1">
+<TITLE>MultiCell</TITLE>
+<LINK TYPE="text/css" REL="stylesheet" HREF="../fpdf.css">
+</HEAD>
+<BODY>
+<H2>MultiCell</H2>
+<TT>MultiCell(<B>double</B> w, <B>double</B> h, <B>string</B> txt [, <B>int</B> border [, <B>string</B> align [, <B>int</B> fill]]])</TT>
+<H4>Description</H4>
+Cette méthode permet d'imprimer du texte avec des retours à la ligne. Ceux-ci peuvent être
+automatiques (dès que le texte atteint le bord droit de la cellule) ou explicites (via le
+caractère \n). Autant de cellules que nécessaire sont imprimées, les unes en dessous des
+autres.
+<BR>
+Le texte peut être aligné, centré ou justifié. Le bloc de cellules peut être encadré et le
+fond coloré.
+<H4>Paramètres</H4>
+<TT><U>w</U></TT>
+<BLOCKQUOTE>
+Largeur des cellules. Si elle vaut <TT>0</TT>, elles s'étendent jusqu'à la marge droite de
+la page (la marge droite étant égale à la marge gauche).
+</BLOCKQUOTE>
+<TT><U>h</U></TT>
+<BLOCKQUOTE>
+Hauteur des cellules.
+</BLOCKQUOTE>
+<TT><U>txt</U></TT>
+<BLOCKQUOTE>
+Chaîne à imprimer.
+</BLOCKQUOTE>
+<TT><U>border</U></TT>
+<BLOCKQUOTE>
+Indique si un cadre doit être tracé autour du bloc de cellules (<TT>0</TT> : non, <TT>1</TT> :
+oui).
+Valeur par défaut : <TT>0</TT>.
+</BLOCKQUOTE>
+<TT><U>align</U></TT>
+<BLOCKQUOTE>
+Contrôle l'alignement du texte. Les valeurs possibles sont :
+<UL>
+<LI><TT>L</TT> : alignement à gauche
+<LI><TT>C</TT> : centrage
+<LI><TT>R</TT> : alignement à droite
+<LI><TT>J</TT> : justification (valeur par défaut)
+</UL>
+</BLOCKQUOTE>
+<TT><U>fill</U></TT>
+<BLOCKQUOTE>
+Indique si le fond des cellules doit être coloré (<TT>1</TT>) ou transparent (<TT>0</TT>).
+Valeur par défaut : <TT>0</TT>.
+</BLOCKQUOTE>
+<H4>Voir</H4>
+<A HREF="setfont.htm">SetFont()</A>,
+<A HREF="setdrawcolor.htm">SetDrawColor()</A>,
+<A HREF="setfillcolor.htm">SetFillColor()</A>,
+<A HREF="settextcolor.htm">SetTextColor()</A>,
+<A HREF="setlinewidth.htm">SetLineWidth()</A>,
+<A HREF="cell.htm">Cell()</A>,
+<A HREF="setautopagebreak.htm">SetAutoPageBreak()</A>.
+<H6></H6>
+<HR>
+<DIV ALIGN="CENTER"><A HREF="index.htm">Index</A></DIV>
+</BODY>
+</HTML>

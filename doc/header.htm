@@ -1,6 +1,6 @@
 <HTML>
 <HEAD>
-<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=ISO-8859-1"> 
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=ISO-8859-1">
 <TITLE>Header</TITLE>
 <LINK TYPE="text/css" REL="stylesheet" HREF="../fpdf.css">
 </HEAD>
@@ -14,36 +14,35 @@ L'implémentation de Header() dans FPDF est vide, donc vous devez dériver la clas
 redéfinir la méthode si vous voulez un traitement particulier pour vos en-têtes.
 <H4>Exemple</H4>
 <TABLE WIDTH="100%" BGCOLOR="#E0E0E0"><TR><TD>
-<PRE>
-class PDF extends FPDF
-{
-
-//Constructeur (obligatoire pour PHP3)
-function PDF()
-{
-    $this->FPDF();
+<TT>
+class PDF extends FPDF<BR>
+{<BR>
+<BR>
+//Constructeur (obligatoire pour PHP3)<BR>
+function PDF()<BR>
+{<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;$this->FPDF();<BR>
+}<BR>
+<BR>
+//En-tête<BR>
+function Header()<BR>
+{<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;//Police Arial gras 15<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;$this->SetFont('Arial','B',15);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;//Décalage<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;$this->Cell(80);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;//Titre encadré<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;$this->Cell(30,10,'Titre',1,0,'C');<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;//Saut de ligne<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;$this->Ln(20);<BR>
+}<BR>
+<BR>
 }
-
-//En-tête
-function Header()
-{
-    //Police Arial gras 15
-    $this->SetFont('Arial','B',15);
-    //Décalage
-    $this->Cell(80);
-    //Titre
-    $this->Cell(30,10,'Titre');
-    //Saut de ligne
-    $this->Ln(20);
-}
-
-}
-</PRE>
-</TD></TR></TABLE>
+</TT>
+</TD></TR></TABLE><BR>
 <H4>Voir</H4>
 <A HREF="footer.htm">Footer()</A>.
-<BR>
-<BR>
+<H6></H6>
 <HR>
 <DIV ALIGN="CENTER"><A HREF="index.htm">Index</A></DIV>
 </BODY>

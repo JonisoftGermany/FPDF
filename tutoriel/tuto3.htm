@@ -1,0 +1,136 @@
+<HTML>
+<HEAD>
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=ISO-8859-1">
+<TITLE>Retour du texte à la ligne et couleurs</TITLE>
+<LINK TYPE="text/css" REL="stylesheet" HREF="../fpdf.css">
+</HEAD>
+<BODY>
+<H2>Retour du texte à la ligne et couleurs</H2>
+Voici pour continuer un exemple imprimant des paragraphes de texte justifié. Il illustre
+également l'utilisation des couleurs.
+<BR>
+<BR>
+<TABLE WIDTH="100%" BGCOLOR="#E0E0E0"><TR><TD>
+<TT>
+&lt;?php<BR>
+require('fpdf.php');<BR>
+<BR>
+class PDF extends FPDF<BR>
+{<BR>
+<BR>
+function PDF()<BR>
+{<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;FPDF();<BR>
+}<BR>
+<BR>
+function Header()<BR>
+{<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;global $titre;<BR>
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;//Arial gras 15<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;SetFont('Arial','B',15);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;//Calcul de la largeur du titre et positionnement<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;$w=$this-&gt;GetStringWidth($titre)+6;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;SetX((210-$w)/2);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;//Couleurs du cadre, du fond et du texte<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;SetDrawColor(0,80,180);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;SetFillColor(230,230,0);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;SetTextColor(220,50,50);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;//Epaisseur du cadre (1 mm)<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;SetLineWidth(1);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;//Titre centr&eacute;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;Cell($w,9,$titre,1,1,'C',1);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;//Saut de ligne<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;Ln(10);<BR>
+}<BR>
+<BR>
+function Footer()<BR>
+{<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;//Positionnement &agrave; 1,5 cm du bas<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;SetY(-15);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;//Arial italique 8<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;SetFont('Arial','I',8);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;//Couleur du texte en gris<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;SetTextColor(128);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;//Num&eacute;ro de page<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;Cell(0,10,'Page '.$this-&gt;PageNo(),0,0,'C');<BR>
+}<BR>
+<BR>
+function TitreChapitre($num,$lib)<BR>
+{<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;//Arial 12<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;SetFont('Arial','',12);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;//Couleur de fond<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;SetFillColor(200,220,255);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;//Titre<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;Cell(0,6,&quot;Chapitre $num : $lib&quot;,0,1,'L',1);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;//Saut de ligne<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;Ln(4);<BR>
+}<BR>
+<BR>
+function CorpsChapitre($fichier)<BR>
+{<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;//Lecture du fichier texte<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;$f=fopen($fichier,'r');<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;$txt=fread($f,filesize($fichier));<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;fclose($f);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;//Times 12<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;SetFont('Times','',12);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;//Sortie du texte justifi&eacute;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;MultiCell(0,5,$txt);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;//Saut de ligne<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;Ln();<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;//Mention en italique<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;SetFont('','I');<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;Cell(0,5,'(fin de l\'extrait)');<BR>
+}<BR>
+<BR>
+function AjouterChapitre($num,$titre,$fichier)<BR>
+{<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;AddPage();<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;TitreChapitre($num,$titre);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;CorpsChapitre($fichier);<BR>
+}<BR>
+}<BR>
+<BR>
+$pdf=new PDF();<BR>
+$pdf-&gt;Open();<BR>
+$titre='Vingt mille lieues sous les mers';<BR>
+$pdf-&gt;SetTitle($titre);<BR>
+$pdf-&gt;SetAuthor('Jules Verne');<BR>
+$pdf-&gt;AjouterChapitre(1,'UN &Eacute;CUEIL FUYANT','20k_c1.txt');<BR>
+$pdf-&gt;AjouterChapitre(2,'LE POUR ET LE CONTRE','20k_c2.txt');<BR>
+$pdf-&gt;Output();<BR>
+?&gt;
+</TT>
+</TD></TR></TABLE><BR>
+<SCRIPT>
+<!--
+if(document.location.href.indexOf('http:')==0)
+{
+document.write("<A HREF='tuto3.php'>[Démo]</A><BR><BR>");
+}
+//-->
+</SCRIPT>
+La méthode <A HREF='../doc/getstringwidth.htm'>GetStringWidth()</A> permet de déterminer la longueur d'une chaîne dans la police
+courante, ce qui est utilisé ici pour calculer la largeur du cadre entourant le titre. Puis
+les couleurs sont définies (via <A HREF='../doc/setdrawcolor.htm'>SetDrawColor()</A>, <A HREF='../doc/setfillcolor.htm'>SetFillColor()</A> et <A HREF='../doc/settextcolor.htm'>SetTextColor()</A>)
+et l'épaisseur du trait positionnée à 1 mm (contre 0,2 par défaut) grâce à <A HREF='../doc/setlinewidth.htm'>SetLineWidth()</A>.
+Il ne reste alors plus qu'à imprimer la cellule pour le titre (le dernier paramètre à 1 indique
+que le fond doit être coloré).
+<BR>
+<BR>
+La méthode permettant d'imprimer les paragraphes est <A HREF='../doc/multicell.htm'>MultiCell()</A>. A chaque fois qu'une
+ligne arrive à l'extrémité droite de la cellule ou qu'un caractère de retour-chariot est
+rencontré, un saut est effectué et une nouvelle cellule automatiquement créée sous la
+précédente. Le texte est justifié par défaut.
+<BR>
+<BR>
+Deux propriétés du document sont positionnées : le titre (<A HREF='../doc/settitle.htm'>SetTitle()</A>) et l'auteur
+(<A HREF='../doc/setauthor.htm'>SetAuthor()</A>). Les propriétés sont visibles de deux manières différentes. En ouvrant
+directement le document avec Acrobat Reader, en allant dans le menu Fichier, Informations
+sur le document, option Générales. Seconde méthode, accessible aussi à partir du plug-in,
+cliquer sur le triangle juste au-dessus de la barre de défilement de droite et sélectionner
+Informations sur le document.
+</BODY>
+</HTML>
