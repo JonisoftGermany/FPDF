@@ -1,0 +1,220 @@
+<HTML>
+<HEAD>
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=ISO-8859-1">
+<TITLE>FAQ</TITLE>
+<LINK TYPE="text/css" REL="stylesheet" HREF="fpdf.css">
+</HEAD>
+<BODY>
+<H2>FAQ</H2>
+<B>1.</B> <A HREF='#1'>Quelle est exactement la licence de FPDF ? Y a-t-il des restrictions d'utilisation ?</A><BR>
+<B>2.</B> <A HREF='#2'>Lorsque j'essaie de créer un PDF, plein de caractères bizarres s'affichent à l'écran. Pourquoi ?</A><BR>
+<B>3.</B> <A HREF='#3'>J'essaie de générer un PDF et IE m'affiche une page blanche. Que se passe-t-il ?</A><BR>
+<B>4.</B> <A HREF='#4'>J'envoie des paramètres en utilisant la méthode POST et les valeurs n'apparaissent pas dans le PDF.</A><BR>
+<B>5.</B> <A HREF='#5'>J'essaie d'afficher un PDF et Acrobat me dit "Une erreur est survenue lors du traitement d'une page. Nombre d'opérandes insuffisant." suivi de "Détection d'une marque non reconnue : 2,88."</A><BR>
+<B>6.</B> <A HREF='#6'>Je n'arrive pas à faire de retour à la ligne. J'ai bien mis \n dans la chaîne imprimée par MultiCell mais ça ne marche pas.</A><BR>
+<B>7.</B> <A HREF='#7'>J'essaie de mettre le caractère euro mais je n'y arrive pas.</A><BR>
+<B>8.</B> <A HREF='#8'>Je dessine un cadre avec des dimensions très précises, mais à l'impression je constate des écarts.</A><BR>
+<B>9.</B> <A HREF='#9'>Je voudrais utiliser toute la surface de la page mais à l'impression j'ai toujours des marges. Comment les enlever ?</A><BR>
+<B>10.</B> <A HREF='#10'>Quelle est la taille limite des fichiers que je peux générer avec FPDF ?</A><BR>
+<B>11.</B> <A HREF='#11'>Est-ce que je peux modifier un PDF avec FPDF ?</A><BR>
+<B>12.</B> <A HREF='#12'>Je voudrais faire un moteur de recherche en PHP et indexer des PDF. Est-ce que je peux le faire avec FPDF ?</A><BR>
+<B>13.</B> <A HREF='#13'>Est-ce que je peux transformer une page HTML en PDF avec FPDF ?</A><BR>
+<B>14.</B> <A HREF='#14'>Est-ce que je peux concaténer des PDF avec FPDF ?</A><BR>
+<B>15.</B> <A HREF='#15'>Comment faire pour activer les protections sur un PDF ? Je voudrais empêcher qu'on puisse copier-coller le texte ou modifier le document.</A><BR>
+<B>16.</B> <A HREF='#16'>Je voudrais ajouter de nouvelles polices. Comment faire ? Comment puis-je créer les fichiers que l'on trouve dans le répertoire font ?</A><BR>
+<B>17.</B> <A HREF='#17'>Comment puis-je utiliser un autre jeu de caractères que celui par défaut ?</A><BR>
+<BR><BR>
+<A NAME='1'></A><B>1.</B> <FONT CLASS='st'>Quelle est exactement la licence de FPDF ? Y a-t-il des restrictions d'utilisation ?</FONT>
+<P>FPDF est Freeware (c'est indiqué au début du fichier source). Il n'y a pas de restriction
+d'usage.</P>
+<A NAME='2'></A><B>2.</B> <FONT CLASS='st'>Lorsque j'essaie de créer un PDF, plein de caractères bizarres s'affichent à l'écran. Pourquoi ?</FONT>
+<P>Ces caractères "bizarres" sont en fait le contenu réel du PDF. Ce comportement est un bug d'IE.
+Lorsqu'il reçoit d'abord une page HTML, puis un PDF à partir de la même URL, il l'affiche
+directement sans lancer le plug-in Acrobat. Cela arrive fréquemment en cours de développement :
+à la moindre erreur de script, une page HTML est envoyée, et après correction, le PDF arrive.
+<BR>
+Pour résoudre le problème, il suffit de fermer IE et de le relancer. On peut aussi aller sur
+une autre URL et revenir.
+<BR>
+Pour éviter ce genre de désagrément durant le développement, on peut générer le PDF directement
+dans un fichier et l'ouvrir via l'explorateur.</P>
+<A NAME='3'></A><B>3.</B> <FONT CLASS='st'>J'essaie de générer un PDF et IE m'affiche une page blanche. Que se passe-t-il ?</FONT>
+<P>Tout d'abord, vérifiez que vous n'envoyez rien au navigateur après le PDF (même pas un espace
+ou un retour-chariot). Vous pouvez mettre un exit juste après l'appel à la méthode Output()
+pour en être sûr.
+<BR>
+Si ce n'est pas ça, c'est que vous êtes victime du syndrome de la "page blanche". IE utilisé
+en conjonction avec le plug-in Acrobat souffre de très nombreux bugs, quelles que soient les
+versions. Essayez de tester votre application avec le plus de versions d'IE possible (en tout cas
+si elle est sur Internet). Le problème survient surtout lorsqu'on utilise la méthode POST, c'est
+pourquoi il est déconseillé de l'utiliser (d'autant qu'elle pose d'autres problèmes, voir la
+question suivante). Le GET marche mieux mais peut échouer lorsque l'URL devient trop longue : il
+ne faut pas dépasser 45 caractères pour la query string. Il existe cependant une astuce pour
+dépasser cette limite : terminer l'URL par .pdf, ce qui trompe IE. Si vous utilisez un
+formulaire, il suffit de rajouter un champ caché en dernière position :
+<BR>
+<BR>
+<TABLE WIDTH="100%" BGCOLOR="#E0E0E0"><TR><TD>
+<TT>
+&lt;INPUT TYPE=&quot;HIDDEN&quot; NAME=&quot;ext&quot; VALUE=&quot;.pdf&quot;&gt;
+</TT>
+</TD></TR></TABLE><BR>
+L'utilisation de
+session PHP cause également souvent des dysfonctionnements (il faut éviter d'envoyer des en-têtes
+HTTP relatifs au cache).
+<BR>
+<BR>
+Si vous ne pouvez ou ne voulez pas utiliser la méthode GET, ou si vous rencontrez toujours des
+problèmes, ou si vous avez besoin d'une session PHP pour générer le document, il existe deux
+moyens pour contourner le problème :
+<BR>
+<BR>
+- Désactiver le plug-in et utiliser Acrobat comme application externe. Pour cela, lancez
+Acrobat; dans le menu Fichier, Préférences, Générales, désactivez l'option "Intégrer au
+navigateur Web" (pour Acrobat 5 : Edition, Préférences, Options, "Afficher dans le navigateur").
+Puis, lorsque vous récupérez un PDF dans IE, ce dernier affiche la boîte "Ouvrir ce fichier" ou
+"Enregistrer ce fichier". Décochez la case "Toujours demander avant d'ouvrir ce type de fichier"
+et choisissez Ouvrir. Dorénavant les PDF s'ouvriront automatiquement dans une fenêtre Acrobat
+indépendante.
+<BR>
+L'inconvénient de la méthode est qu'il faut toucher à la configuration du poste client, ce
+qu'on peut faire en intranet mais pas pour Internet.
+<BR>
+<BR>
+- Utiliser une technique de redirection. Le principe consiste à générer le PDF dans un fichier
+temporaire sur le serveur et à rediriger le client dessus (en utilisant du JavaScript, pas
+l'en-tête HTTP Location qui pose aussi des problèmes). Par exemple, à la fin du script, on
+peut mettre :
+<BR>
+<BR>
+<TABLE WIDTH="100%" BGCOLOR="#E0E0E0"><TR><TD>
+<TT>
+//D&eacute;termination d'un nom de fichier temporaire dans le r&eacute;pertoire courant<BR>
+$file=basename(tempnam(getcwd(),'pdf'));<BR>
+//Sauvegarde du PDF dans le fichier<BR>
+$pdf-&gt;Output($file);<BR>
+//Redirection JavaScript<BR>
+echo &quot;&lt;HTML&gt;&lt;SCRIPT&gt;document.location='getpdf.php?f=$file';&lt;/SCRIPT&gt;&lt;/HTML&gt;&quot;;
+</TT>
+</TD></TR></TABLE><BR>
+Puis ceci dans getpdf.php :
+<BR>
+<BR>
+<TABLE WIDTH="100%" BGCOLOR="#E0E0E0"><TR><TD>
+<TT>
+&lt;?php<BR>
+$f=$HTTP_GET_VARS['f'];<BR>
+//Contr&ocirc;le du fichier (&agrave; ne pas oublier !)<BR>
+if(substr($f,0,3)!='pdf' or strpos($f,'.php') or strpos($f,'/') or strpos($f,'\\'))<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;die(&quot;Nom de fichier incorrect&quot;);<BR>
+if(!file_exists($f))<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;die(&quot;Le fichier n'existe pas&quot;);<BR>
+//Traitement de la requ&ecirc;te sp&eacute;ciale IE au cas o&ugrave;<BR>
+if($HTTP_ENV_VARS['USER_AGENT']=='contype')<BR>
+{<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;Header('Content-Type: application/pdf');<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;exit;<BR>
+}<BR>
+//Envoi du PDF<BR>
+Header('Content-Type: application/pdf');<BR>
+Header('Content-Length: '.filesize($f));<BR>
+readfile($f);<BR>
+//Suppression du fichier<BR>
+unlink($f);<BR>
+exit;<BR>
+?&gt;
+</TT>
+</TD></TR></TABLE><BR>
+Cette méthode semble fonctionner dans tous les cas. Une variante consiste à rediriger
+directement sur le fichier temporaire, mais il faudra alors prévoir quelque part une
+procédure de nettoyage pour effacer les fichiers.
+<BR>
+Remarque : il est nécessaire d'ouvrir une nouvelle fenêtre pour le PDF, car on ne peut plus
+revenir en arrière à cause de la redirection.</P>
+<A NAME='4'></A><B>4.</B> <FONT CLASS='st'>J'envoie des paramètres en utilisant la méthode POST et les valeurs n'apparaissent pas dans le PDF.</FONT>
+<P>C'est un problème qui affecte certaines versions d'IE. Voir la question précédente pour les
+moyens de le contourner.</P>
+<A NAME='5'></A><B>5.</B> <FONT CLASS='st'>J'essaie d'afficher un PDF et Acrobat me dit "Une erreur est survenue lors du traitement d'une page. Nombre d'opérandes insuffisant." suivi de "Détection d'une marque non reconnue : 2,88."</FONT>
+<P>Il s'agit d'un problème lié aux paramètres nationaux. Le séparateur décimal est configuré comme
+étant une virgule alors que le point est nécessaire pour obtenir des PDF valides. Pour rétablir
+le bon paramètre, il suffit de mettre la ligne suivante :
+<BR>
+<BR>
+<TABLE WIDTH="100%" BGCOLOR="#E0E0E0"><TR><TD>
+<TT>
+setlocale('LC_NUMERIC','en');
+</TT>
+</TD></TR></TABLE><BR>
+</P>
+<A NAME='6'></A><B>6.</B> <FONT CLASS='st'>Je n'arrive pas à faire de retour à la ligne. J'ai bien mis \n dans la chaîne imprimée par MultiCell mais ça ne marche pas.</FONT>
+<P>Il faut mettre la chaîne entre guillemets et non pas entre apostrophes.</P>
+<A NAME='7'></A><B>7.</B> <FONT CLASS='st'>J'essaie de mettre le caractère euro mais je n'y arrive pas.</FONT>
+<P>Utilisez chr(128). Vous pouvez définir une constante comme suit :
+<BR>
+<BR>
+<TABLE WIDTH="100%" BGCOLOR="#E0E0E0"><TR><TD>
+<TT>
+define('EURO',chr(128));
+</TT>
+</TD></TR></TABLE><BR>
+</P>
+<A NAME='8'></A><B>8.</B> <FONT CLASS='st'>Je dessine un cadre avec des dimensions très précises, mais à l'impression je constate des écarts.</FONT>
+<P>Pour respecter les dimensions, il faut décocher la case "Ajuster" dans la boîte de dialogue
+d'impression.</P>
+<A NAME='9'></A><B>9.</B> <FONT CLASS='st'>Je voudrais utiliser toute la surface de la page mais à l'impression j'ai toujours des marges. Comment les enlever ?</FONT>
+<P>Les imprimantes ont toutes des marges physiques (variables en fonction du modèle), il est donc
+impossible de les supprimer et d'imprimer sur la totalité de la page.</P>
+<A NAME='10'></A><B>10.</B> <FONT CLASS='st'>Quelle est la taille limite des fichiers que je peux générer avec FPDF ?</FONT>
+<P>Il n'y a pas de limite particulière. Il existe cependant certaines contraintes :
+<BR>
+<BR>
+- La taille mémoire allouée par défaut aux scripts PHP est de 8 Mo. Pour de très gros
+documents, en particulier avec des images, cette limite peut être atteinte (le fichier étant
+construit en mémoire). Elle est paramétrée dans php.ini.
+<BR>
+<BR>
+- Le temps d'exécution alloué par défaut est de 30 secondes. Cette limite peut bien entendu
+être facilement dépassée. Elle est paramétrée dans php.ini et peut être éventuellement modifiée
+à l'exécution par set_time_limit().
+<BR>
+<BR>
+- Les navigateurs ont généralement un time-out de 5 minutes. Si vous envoyez le PDF directement
+au navigateur et que vous dépassez cette limite, il sera perdu. Il est donc conseillé pour les
+très gros documents de les générer dans un fichier, et d'envoyer des données de temps en temps
+au navigateur (par exemple page 1, page 2... en utilisant flush() pour forcer l'envoi).
+Lorsque le fichier est terminé, vous pouvez effectuer une redirection dessus avec JavaScript
+ou bien créer un lien.
+<BR>
+Remarque : même lorsque le navigateur part en time-out, le script continue généralement à
+s'exécuter sur le serveur.</P>
+<A NAME='11'></A><B>11.</B> <FONT CLASS='st'>Est-ce que je peux modifier un PDF avec FPDF ?</FONT>
+<P>Non. Il y aura (j'espère) une version à l'avenir permettant d'importer le contenu d'un PDF
+pour pouvoir l'enrichir.</P>
+<A NAME='12'></A><B>12.</B> <FONT CLASS='st'>Je voudrais faire un moteur de recherche en PHP et indexer des PDF. Est-ce que je peux le faire avec FPDF ?</FONT>
+<P>Non. Par contre il existe un utilitaire en C, pdftotext, capable d'extraire le contenu textuel
+d'un PDF. Il est fourni avec l'archive de Xpdf.
+<BR>
+<BR>
+<A HREF="http://www.foolabs.com/xpdf/" TARGET="_BLANK">http://www.foolabs.com/xpdf/</A></P>
+<A NAME='13'></A><B>13.</B> <FONT CLASS='st'>Est-ce que je peux transformer une page HTML en PDF avec FPDF ?</FONT>
+<P>Non. Par contre il existe un utilitaire en C, htmldoc, qui permet de le faire et qui donne de
+bons résultats.
+<BR>
+<BR>
+<A HREF="http://www.easysw.com/htmldoc/" TARGET="_BLANK">http://www.easysw.com/htmldoc/</A></P>
+<A NAME='14'></A><B>14.</B> <FONT CLASS='st'>Est-ce que je peux concaténer des PDF avec FPDF ?</FONT>
+<P>Non.</P>
+<A NAME='15'></A><B>15.</B> <FONT CLASS='st'>Comment faire pour activer les protections sur un PDF ? Je voudrais empêcher qu'on puisse copier-coller le texte ou modifier le document.</FONT>
+<P>On ne peut pas actuellement. Protéger un PDF nécessite de le crypter, et l'algorithme utilisé
+(RC4) n'est en principe pas libre (bien qu'il y ait un certain flou à ce sujet et qu'il semble
+qu'il soit toléré pour une utilisation non commerciale).</P>
+<A NAME='16'></A><B>16.</B> <FONT CLASS='st'>Je voudrais ajouter de nouvelles polices. Comment faire ? Comment puis-je créer les fichiers que l'on trouve dans le répertoire font ?</FONT>
+<P>On ne peut pas pour l'instant utiliser d'autres polices que celles standard. Il ne suffit pas
+de générer un fichier de métrique pour disposer d'une nouvelle police, c'est plus compliqué que
+ça. La fonctionnalité sera ajoutée dans une future version.</P>
+<A NAME='17'></A><B>17.</B> <FONT CLASS='st'>Comment puis-je utiliser un autre jeu de caractères que celui par défaut ?</FONT>
+<P>Pour l'instant on ne peut pas. J'en ajouterai dans de futures versions. J'espère pouvoir
+supporter à terme les principaux encodages (Europe centrale, cyrillique, chinois, japonais,
+coréen).</P>
+</BODY>
+</HTML>

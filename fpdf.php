@@ -1,14 +1,14 @@
 <?php
 /****************************************************************************
 * Logiciel : FPDF                                                           *
-* Version :  1.4                                                            *
-* Date :     02/03/2002                                                     *
+* Version :  1.41                                                           *
+* Date :     13/03/2002                                                     *
 * Auteur :   Olivier PLATHEY                                                *
 * Licence :  Freeware                                                       *
 *                                                                           *
 * Vous pouvez utiliser et modifier ce logiciel comme vous le souhaitez.     *
 ****************************************************************************/
-define('FPDF_VERSION','1.4');
+define('FPDF_VERSION','1.41');
 
 class FPDF
 {
@@ -922,13 +922,13 @@ function _enddoc()
 	$this->_newobj();
 	$this->_out('<</Type /Catalog');
 	if($this->DisplayMode=='fullpage')
-		$this->_out('/OpenAction [2 0 R /Fit]');
+		$this->_out('/OpenAction [3 0 R /Fit]');
 	elseif($this->DisplayMode=='fullwidth')
-		$this->_out('/OpenAction [2 0 R /FitH null]');
+		$this->_out('/OpenAction [3 0 R /FitH null]');
 	elseif($this->DisplayMode=='real')
-		$this->_out('/OpenAction [2 0 R /XYZ null null 1]');
+		$this->_out('/OpenAction [3 0 R /XYZ null null 1]');
 	else
-		$this->_out('/OpenAction [2 0 R /XYZ null null '.($this->DisplayMode/100).']');
+		$this->_out('/OpenAction [3 0 R /XYZ null null '.($this->DisplayMode/100).']');
 	$this->_out('/Pages 1 0 R>>');
 	$this->_out('endobj');
 	//Cross-ref
