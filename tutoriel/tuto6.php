@@ -42,26 +42,26 @@ function WriteHTML($html)
 				$this->CloseTag(strtoupper(substr($e,1)));
 			else
 			{
-				//Extraction des propriétés
-				$a2=split(' ',$e);
+				//Extraction des attributs
+				$a2=explode(' ',$e);
 				$tag=strtoupper(array_shift($a2));
-				$prop=array();
+				$attr=array();
 				foreach($a2 as $v)
 					if(ereg('^([^=]*)=["\']?([^"\']*)["\']?$',$v,$a3))
-						$prop[strtoupper($a3[1])]=$a3[2];
-				$this->OpenTag($tag,$prop);
+						$attr[strtoupper($a3[1])]=$a3[2];
+				$this->OpenTag($tag,$attr);
 			}
 		}
 	}
 }
 
-function OpenTag($tag,$prop)
+function OpenTag($tag,$attr)
 {
 	//Balise ouvrante
 	if($tag=='B' or $tag=='I' or $tag=='U')
 		$this->SetStyle($tag,true);
 	if($tag=='A')
-		$this->HREF=$prop['HREF'];
+		$this->HREF=$attr['HREF'];
 	if($tag=='BR')
 		$this->Ln(5);
 }

@@ -10,99 +10,16 @@ Voici pour continuer un exemple imprimant des paragraphes de texte justifié. Il 
 également l'utilisation des couleurs.
 <BR>
 <BR>
-<TABLE WIDTH="100%" BGCOLOR="#E0E0E0"><TR><TD>
-<TT>
-&lt;?php<BR>
-require('fpdf.php');<BR>
-<BR>
-class PDF extends FPDF<BR>
-{<BR>
-function Header()<BR>
-{<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;global $titre;<BR>
-<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;//Arial gras 15<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;SetFont('Arial','B',15);<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;//Calcul de la largeur du titre et positionnement<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;$w=$this-&gt;GetStringWidth($titre)+6;<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;SetX((210-$w)/2);<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;//Couleurs du cadre, du fond et du texte<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;SetDrawColor(0,80,180);<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;SetFillColor(230,230,0);<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;SetTextColor(220,50,50);<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;//Epaisseur du cadre (1 mm)<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;SetLineWidth(1);<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;//Titre centr&eacute;<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;Cell($w,9,$titre,1,1,'C',1);<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;//Saut de ligne<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;Ln(10);<BR>
-}<BR>
-<BR>
-function Footer()<BR>
-{<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;//Positionnement &agrave; 1,5 cm du bas<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;SetY(-15);<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;//Arial italique 8<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;SetFont('Arial','I',8);<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;//Couleur du texte en gris<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;SetTextColor(128);<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;//Num&eacute;ro de page<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;Cell(0,10,'Page '.$this-&gt;PageNo(),0,0,'C');<BR>
-}<BR>
-<BR>
-function TitreChapitre($num,$lib)<BR>
-{<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;//Arial 12<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;SetFont('Arial','',12);<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;//Couleur de fond<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;SetFillColor(200,220,255);<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;//Titre<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;Cell(0,6,&quot;Chapitre $num : $lib&quot;,0,1,'L',1);<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;//Saut de ligne<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;Ln(4);<BR>
-}<BR>
-<BR>
-function CorpsChapitre($fichier)<BR>
-{<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;//Lecture du fichier texte<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;$f=fopen($fichier,'r');<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;$txt=fread($f,filesize($fichier));<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;fclose($f);<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;//Times 12<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;SetFont('Times','',12);<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;//Sortie du texte justifi&eacute;<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;MultiCell(0,5,$txt);<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;//Saut de ligne<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;Ln();<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;//Mention en italique<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;SetFont('','I');<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;Cell(0,5,'(fin de l\'extrait)');<BR>
-}<BR>
-<BR>
-function AjouterChapitre($num,$titre,$fichier)<BR>
-{<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;AddPage();<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;TitreChapitre($num,$titre);<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;CorpsChapitre($fichier);<BR>
-}<BR>
-}<BR>
-<BR>
-$pdf=new PDF();<BR>
-$pdf-&gt;Open();<BR>
-$titre='Vingt mille lieues sous les mers';<BR>
-$pdf-&gt;SetTitle($titre);<BR>
-$pdf-&gt;SetAuthor('Jules Verne');<BR>
-$pdf-&gt;AjouterChapitre(1,'UN &Eacute;CUEIL FUYANT','20k_c1.txt');<BR>
-$pdf-&gt;AjouterChapitre(2,'LE POUR ET LE CONTRE','20k_c2.txt');<BR>
-$pdf-&gt;Output();<BR>
-?&gt;
-</TT>
-</TD></TR></TABLE><BR>
+<TABLE WIDTH="100%" STYLE="color:#4040C0; border-style:ridge" BORDERCOLORLIGHT="#B0B0E0" BORDERCOLORDARK="#000000" BORDER="2" CELLPADDING=6 CELLSPACING=0 BGCOLOR="#F0F5FF"><TR><TD style="border-width:0px">
+<NOBR><code><font color="#000000">
+&lt;?php<br>define<font class="kw">(</font><font class="str">'FPDF_FONTPATH'</font><font class="kw">,</font><font class="str">'font/'</font><font class="kw">);<br>require(</font><font class="str">'fpdf.php'</font><font class="kw">);<br><br>class&nbsp;</font>PDF&nbsp;<font class="kw">extends&nbsp;</font>FPDF<br><font class="kw">{<br>function&nbsp;</font>Header<font class="kw">()<br>{<br>&nbsp;&nbsp;&nbsp;&nbsp;global&nbsp;</font>$titre<font class="kw">;<br><br>&nbsp;&nbsp;&nbsp;&nbsp;</font><font class="cmt">//Arial gras 15<br>&nbsp;&nbsp;&nbsp;&nbsp;</font>$<font class="kw">this-&gt;</font>SetFont<font class="kw">(</font><font class="str">'Arial'</font><font class="kw">,</font><font class="str">'B'</font><font class="kw">,</font>15<font class="kw">);<br>&nbsp;&nbsp;&nbsp;&nbsp;</font><font class="cmt">//Calcul de la largeur du titre et positionnement<br>&nbsp;&nbsp;&nbsp;&nbsp;</font>$w<font class="kw">=</font>$<font class="kw">this-&gt;</font>GetStringWidth<font class="kw">(</font>$titre<font class="kw">)+</font>6<font class="kw">;<br>&nbsp;&nbsp;&nbsp;&nbsp;</font>$<font class="kw">this-&gt;</font>SetX<font class="kw">((</font>210<font class="kw">-</font>$w<font class="kw">)/</font>2<font class="kw">);<br>&nbsp;&nbsp;&nbsp;&nbsp;</font><font class="cmt">//Couleurs du cadre, du fond et du texte<br>&nbsp;&nbsp;&nbsp;&nbsp;</font>$<font class="kw">this-&gt;</font>SetDrawColor<font class="kw">(</font>0<font class="kw">,</font>80<font class="kw">,</font>180<font class="kw">);<br>&nbsp;&nbsp;&nbsp;&nbsp;</font>$<font class="kw">this-&gt;</font>SetFillColor<font class="kw">(</font>230<font class="kw">,</font>230<font class="kw">,</font>0<font class="kw">);<br>&nbsp;&nbsp;&nbsp;&nbsp;</font>$<font class="kw">this-&gt;</font>SetTextColor<font class="kw">(</font>220<font class="kw">,</font>50<font class="kw">,</font>50<font class="kw">);<br>&nbsp;&nbsp;&nbsp;&nbsp;</font><font class="cmt">//Epaisseur du cadre (1 mm)<br>&nbsp;&nbsp;&nbsp;&nbsp;</font>$<font class="kw">this-&gt;</font>SetLineWidth<font class="kw">(</font>1<font class="kw">);<br>&nbsp;&nbsp;&nbsp;&nbsp;</font><font class="cmt">//Titre centré<br>&nbsp;&nbsp;&nbsp;&nbsp;</font>$<font class="kw">this-&gt;</font>Cell<font class="kw">(</font>$w<font class="kw">,</font>9<font class="kw">,</font>$titre<font class="kw">,</font>1<font class="kw">,</font>1<font class="kw">,</font><font class="str">'C'</font><font class="kw">,</font>1<font class="kw">);<br>&nbsp;&nbsp;&nbsp;&nbsp;</font><font class="cmt">//Saut de ligne<br>&nbsp;&nbsp;&nbsp;&nbsp;</font>$<font class="kw">this-&gt;</font>Ln<font class="kw">(</font>10<font class="kw">);<br>}<br><br>function&nbsp;</font>Footer<font class="kw">()<br>{<br>&nbsp;&nbsp;&nbsp;&nbsp;</font><font class="cmt">//Positionnement à 1,5 cm du bas<br>&nbsp;&nbsp;&nbsp;&nbsp;</font>$<font class="kw">this-&gt;</font>SetY<font class="kw">(-</font>15<font class="kw">);<br>&nbsp;&nbsp;&nbsp;&nbsp;</font><font class="cmt">//Arial italique 8<br>&nbsp;&nbsp;&nbsp;&nbsp;</font>$<font class="kw">this-&gt;</font>SetFont<font class="kw">(</font><font class="str">'Arial'</font><font class="kw">,</font><font class="str">'I'</font><font class="kw">,</font>8<font class="kw">);<br>&nbsp;&nbsp;&nbsp;&nbsp;</font><font class="cmt">//Couleur du texte en gris<br>&nbsp;&nbsp;&nbsp;&nbsp;</font>$<font class="kw">this-&gt;</font>SetTextColor<font class="kw">(</font>128<font class="kw">);<br>&nbsp;&nbsp;&nbsp;&nbsp;</font><font class="cmt">//Numéro de page<br>&nbsp;&nbsp;&nbsp;&nbsp;</font>$<font class="kw">this-&gt;</font>Cell<font class="kw">(</font>0<font class="kw">,</font>10<font class="kw">,</font><font class="str">'Page '</font><font class="kw">.</font>$<font class="kw">this-&gt;</font>PageNo<font class="kw">(),</font>0<font class="kw">,</font>0<font class="kw">,</font><font class="str">'C'</font><font class="kw">);<br>}<br><br>function&nbsp;</font>TitreChapitre<font class="kw">(</font>$num<font class="kw">,</font>$lib<font class="kw">)<br>{<br>&nbsp;&nbsp;&nbsp;&nbsp;</font><font class="cmt">//Arial 12<br>&nbsp;&nbsp;&nbsp;&nbsp;</font>$<font class="kw">this-&gt;</font>SetFont<font class="kw">(</font><font class="str">'Arial'</font><font class="kw">,</font><font class="str">''</font><font class="kw">,</font>12<font class="kw">);<br>&nbsp;&nbsp;&nbsp;&nbsp;</font><font class="cmt">//Couleur de fond<br>&nbsp;&nbsp;&nbsp;&nbsp;</font>$<font class="kw">this-&gt;</font>SetFillColor<font class="kw">(</font>200<font class="kw">,</font>220<font class="kw">,</font>255<font class="kw">);<br>&nbsp;&nbsp;&nbsp;&nbsp;</font><font class="cmt">//Titre<br>&nbsp;&nbsp;&nbsp;&nbsp;</font>$<font class="kw">this-&gt;</font>Cell<font class="kw">(</font>0<font class="kw">,</font>6<font class="kw">,</font><font class="str">"Chapitre&nbsp;$num&nbsp;:&nbsp;$lib"</font><font class="kw">,</font>0<font class="kw">,</font>1<font class="kw">,</font><font class="str">'L'</font><font class="kw">,</font>1<font class="kw">);<br>&nbsp;&nbsp;&nbsp;&nbsp;</font><font class="cmt">//Saut de ligne<br>&nbsp;&nbsp;&nbsp;&nbsp;</font>$<font class="kw">this-&gt;</font>Ln<font class="kw">(</font>4<font class="kw">);<br>}<br><br>function&nbsp;</font>CorpsChapitre<font class="kw">(</font>$fichier<font class="kw">)<br>{<br>&nbsp;&nbsp;&nbsp;&nbsp;</font><font class="cmt">//Lecture du fichier texte<br>&nbsp;&nbsp;&nbsp;&nbsp;</font>$f<font class="kw">=</font>fopen<font class="kw">(</font>$fichier<font class="kw">,</font><font class="str">'r'</font><font class="kw">);<br>&nbsp;&nbsp;&nbsp;&nbsp;</font>$txt<font class="kw">=</font>fread<font class="kw">(</font>$f<font class="kw">,</font>filesize<font class="kw">(</font>$fichier<font class="kw">));<br>&nbsp;&nbsp;&nbsp;&nbsp;</font>fclose<font class="kw">(</font>$f<font class="kw">);<br>&nbsp;&nbsp;&nbsp;&nbsp;</font><font class="cmt">//Times 12<br>&nbsp;&nbsp;&nbsp;&nbsp;</font>$<font class="kw">this-&gt;</font>SetFont<font class="kw">(</font><font class="str">'Times'</font><font class="kw">,</font><font class="str">''</font><font class="kw">,</font>12<font class="kw">);<br>&nbsp;&nbsp;&nbsp;&nbsp;</font><font class="cmt">//Sortie du texte justifié<br>&nbsp;&nbsp;&nbsp;&nbsp;</font>$<font class="kw">this-&gt;</font>MultiCell<font class="kw">(</font>0<font class="kw">,</font>5<font class="kw">,</font>$txt<font class="kw">);<br>&nbsp;&nbsp;&nbsp;&nbsp;</font><font class="cmt">//Saut de ligne<br>&nbsp;&nbsp;&nbsp;&nbsp;</font>$<font class="kw">this-&gt;</font>Ln<font class="kw">();<br>&nbsp;&nbsp;&nbsp;&nbsp;</font><font class="cmt">//Mention en italique<br>&nbsp;&nbsp;&nbsp;&nbsp;</font>$<font class="kw">this-&gt;</font>SetFont<font class="kw">(</font><font class="str">''</font><font class="kw">,</font><font class="str">'I'</font><font class="kw">);<br>&nbsp;&nbsp;&nbsp;&nbsp;</font>$<font class="kw">this-&gt;</font>Cell<font class="kw">(</font>0<font class="kw">,</font>5<font class="kw">,</font><font class="str">'(fin de l\'extrait)'</font><font class="kw">);<br>}<br><br>function&nbsp;</font>AjouterChapitre<font class="kw">(</font>$num<font class="kw">,</font>$titre<font class="kw">,</font>$fichier<font class="kw">)<br>{<br>&nbsp;&nbsp;&nbsp;&nbsp;</font>$<font class="kw">this-&gt;</font>AddPage<font class="kw">();<br>&nbsp;&nbsp;&nbsp;&nbsp;</font>$<font class="kw">this-&gt;</font>TitreChapitre<font class="kw">(</font>$num<font class="kw">,</font>$titre<font class="kw">);<br>&nbsp;&nbsp;&nbsp;&nbsp;</font>$<font class="kw">this-&gt;</font>CorpsChapitre<font class="kw">(</font>$fichier<font class="kw">);<br>}<br>}<br><br></font>$pdf<font class="kw">=new&nbsp;</font>PDF<font class="kw">();<br></font>$pdf<font class="kw">-&gt;</font>Open<font class="kw">();<br></font>$titre<font class="kw">=</font><font class="str">'Vingt mille lieues sous les mers'</font><font class="kw">;<br></font>$pdf<font class="kw">-&gt;</font>SetTitle<font class="kw">(</font>$titre<font class="kw">);<br></font>$pdf<font class="kw">-&gt;</font>SetAuthor<font class="kw">(</font><font class="str">'Jules Verne'</font><font class="kw">);<br></font>$pdf<font class="kw">-&gt;</font>AjouterChapitre<font class="kw">(</font>1<font class="kw">,</font><font class="str">'UN ÉCUEIL FUYANT'</font><font class="kw">,</font><font class="str">'20k_c1.txt'</font><font class="kw">);<br></font>$pdf<font class="kw">-&gt;</font>AjouterChapitre<font class="kw">(</font>2<font class="kw">,</font><font class="str">'LE POUR ET LE CONTRE'</font><font class="kw">,</font><font class="str">'20k_c2.txt'</font><font class="kw">);<br></font>$pdf<font class="kw">-&gt;</font>Output<font class="kw">();<br></font>?&gt;
+</font>
+</code></NOBR></TD></TR></TABLE><P></P>
 <SCRIPT>
 <!--
 if(document.location.href.indexOf('http:')==0)
 {
-document.write("<A HREF='tuto3.php' TARGET='_blank' CLASS='demo'>[Démo]</A><BR><BR>");
+document.write("<P CLASS='demo'><A HREF='tuto3.php' TARGET='_blank' CLASS='demo'>[Démo]</A></P>");
 }
 //-->
 </SCRIPT>

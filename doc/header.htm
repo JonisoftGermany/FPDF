@@ -7,14 +7,14 @@
 <BODY>
 <H2>Header</H2>
 <TT>Header()</TT>
-<H4>Version</H4>
+<H4 CLASS='st'>Version</H4>
 1.0
-<H4>Description</H4>
+<H4 CLASS='st'>Description</H4>
 Cette méthode permet de définir l'en-tête de page. Elle est appelée automatiquement par
 AddPage() et ne devrait donc pas être appelée explicitement par l'application.
 L'implémentation de Header() dans FPDF est vide, donc vous devez dériver la classe et
 redéfinir la méthode si vous voulez un traitement particulier pour vos en-têtes.
-<H4>Exemple</H4>
+<H4 CLASS='st'>Exemple</H4>
 <TABLE WIDTH="100%" BGCOLOR="#E0E0E0"><TR><TD>
 <TT>
 class PDF extends FPDF<BR>
@@ -33,7 +33,7 @@ function Header()<BR>
 }
 </TT>
 </TD></TR></TABLE><BR>
-<H4>Voir</H4>
+<H4 CLASS='st'>Voir</H4>
 <A HREF="footer.htm">Footer()</A>.
 <H6></H6>
 <HR>

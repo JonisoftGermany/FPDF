@@ -6,9 +6,20 @@
 </HEAD>
 <BODY>
 <H2>Historique</H2>
+<B>v1.51</B> (03/08/2002)
+<BLOCKQUOTE>
+- Support des polices Type1.<BR>
+- Ajout des encodages pour les pays baltes.<BR>
+- La classe travaille maintenant en interne en points avec l'origine en bas afin d'éviter deux bugs avec Acrobat 5 :<BR>&nbsp;&nbsp;* L'épaisseur des traits était trop importante lors des impressions sous Windows 98 SE et ME.<BR>&nbsp;&nbsp;* Les polices TrueType n'apparaissaient pas immédiatement avec le plug-in, il fallait provoquer un rafraîchissement de la fenêtre pour les voir apparaître.<BR>
+- Il n'est plus nécessaire que le séparateur décimal soit le point pour générer des documents valides.<BR>
+- La zone cliquable dans une cellule était toujours positionnée à gauche indépendamment de l'alignement du texte.<BR>
+- Les images JPEG en mode CMYK apparaissaient en couleurs inversées.<BR>
+- Les images PNG transparentes en niveaux de gris ou couleurs vraies étaient incorrectement traitées.<BR>
+- L'ajout de nouvelles polices fonctionne maintenant correctement même avec l'option magic_quotes_runtime à on.<BR>
+</BLOCKQUOTE>
 <B>v1.5</B> (28/05/2002)
 <BLOCKQUOTE>
-- Support des polices TrueType (AddFont()) et des encodages.<BR>
+- Support des polices TrueType (AddFont()) et des encodages (Europe de l'Ouest, de l'Est, cyrillique et grec).<BR>
 - Ajout de la méthode Write().<BR>
 - Ajout du style souligné.<BR>
 - Support des liens internes et externes (AddLink(), SetLink(), Link()).<BR>
@@ -62,7 +73,7 @@
 <B>v1.11</B> (20/10/2001)
 <BLOCKQUOTE>
 - L'utilisation des PNG ne nécessite plus PHP4 et l'extension Zlib. Les données sont intégrées directement dans le document PDF sans étape de décompression/recompression.<BR>
-- L'insertion d'image fonctionne correctement même avec l'option magic_quotes_runtime à on.<BR>
+- L'insertion d'image fonctionne maintenant correctement même avec l'option magic_quotes_runtime à on.<BR>
 </BLOCKQUOTE>
 <B>v1.1</B> (07/10/2001)
 <BLOCKQUOTE>

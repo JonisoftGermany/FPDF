@@ -7,9 +7,9 @@
 <BODY>
 <H2>Cell</H2>
 <TT>Cell(<B>float</B> w [, <B>float</B> h [, <B>string</B> txt [, <B>mixed</B> border [, <B>int</B> ln [, <B>string</B> align [, <B>int</B> fill [, <B>mixed</B> link]]]]]]])</TT>
-<H4>Version</H4>
+<H4 CLASS='st'>Version</H4>
 1.0
-<H4>Description</H4>
+<H4 CLASS='st'>Description</H4>
 Imprime une cellule (zone rectangulaire) avec éventuellement des bords, un fond et une chaîne
 de caractères. Le coin supérieur gauche de la cellule correspond à la position courante. Le
 texte peut être aligné ou centré. Après l'appel, la position courante se déplace à droite
@@ -17,7 +17,7 @@ ou un retour à la ligne est effectué. Il est possible de mettre un lien sur le t
 <BR>
 Si le saut de page automatique est activé et que la cellule dépasse le seuil de déclenchement,
 un saut de page est effectué avant de l'imprimer.
-<H4>Paramètres</H4>
+<H4 CLASS='st'>Paramètres</H4>
 <TT><U>w</U></TT>
 <BLOCKQUOTE>
 Largeur de la cellule. Si elle vaut <TT>0</TT>, la cellule s'étend jusqu'à la marge droite de
@@ -80,7 +80,7 @@ Valeur par défaut : 0.
 <BLOCKQUOTE>
 URL ou identifiant retourné par AddLink().
 </BLOCKQUOTE>
-<H4>Exemple</H4>
+<H4 CLASS='st'>Exemple</H4>
 <TABLE WIDTH="100%" BGCOLOR="#E0E0E0"><TR><TD>
 <TT>
 //S&eacute;lection de la police<BR>
@@ -91,7 +91,7 @@ $pdf-&gt;Cell(80);<BR>
 $pdf-&gt;Cell(20,10,'Titre',1,1,'C');
 </TT>
 </TD></TR></TABLE><BR>
-<H4>Voir</H4>
+<H4 CLASS='st'>Voir</H4>
 <A HREF="setfont.htm">SetFont()</A>,
 <A HREF="setdrawcolor.htm">SetDrawColor()</A>,
 <A HREF="setfillcolor.htm">SetFillColor()</A>,

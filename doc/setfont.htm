@@ -7,9 +7,9 @@
 <BODY>
 <H2>SetFont</H2>
 <TT>SetFont(<B>string</B> family [, <B>string</B> style [, <B>float</B> size]])</TT>
-<H4>Version</H4>
+<H4 CLASS='st'>Version</H4>
 1.0
-<H4>Description</H4>
+<H4 CLASS='st'>Description</H4>
 Fixe la police utilisée pour imprimer les chaînes de caractères. Il est obligatoire
 d'appeler cette méthode au moins une fois avant d'imprimer du texte, sinon le document
 résultant ne sera pas valide.
@@ -46,7 +46,7 @@ require('fpdf.php');
 </TD></TR></TABLE><BR>
 Si le fichier correspondant à la police demandée n'est pas trouvé, l'erreur "Could not include
 font metric file" est générée.
-<H4>Paramètres</H4>
+<H4 CLASS='st'>Paramètres</H4>
 <TT><U>family</U></TT>
 <BLOCKQUOTE>
 Famille de la police. Il peut s'agir d'un nom défini par AddFont() ou bien d'une des familles
@@ -82,7 +82,7 @@ Taille de la police en points.
 La valeur par défaut est la taille courante. Si aucune taille n'a encore été spécifiée
 depuis le début du document, la valeur prise est 12.
 </BLOCKQUOTE>
-<H4>Exemple</H4>
+<H4 CLASS='st'>Exemple</H4>
 <TABLE WIDTH="100%" BGCOLOR="#E0E0E0"><TR><TD>
 <TT>
 //Times normal 12<BR>
@@ -95,7 +95,7 @@ $pdf-&gt;SetFont('');<BR>
 $pdf-&gt;SetFont('Times','BIU');
 </TT>
 </TD></TR></TABLE><BR>
-<H4>Voir</H4>
+<H4 CLASS='st'>Voir</H4>
 <A HREF="addfont.htm">AddFont()</A>,
 <A HREF="setfontsize.htm">SetFontSize()</A>,
 <A HREF="cell.htm">Cell()</A>,

@@ -7,16 +7,16 @@
 <BODY>
 <H2>Write</H2>
 <TT>Write(<B>float</B> h, <B>string</B> txt [, <B>mixed</B> link])</TT>
-<H4>Version</H4>
+<H4 CLASS='st'>Version</H4>
 1.5
-<H4>Description</H4>
+<H4 CLASS='st'>Description</H4>
 Cette méthode imprime du texte à partir de la position courante. Lorsque la marge droite est
 atteinte (ou que le caractère \n est rencontré), un saut de ligne est effectué et le texte
 continue à partir de la marge gauche. Au retour de la méthode, la position courante est située
 juste à la fin du texte.
 <BR>
 Il est possible de mettre un lien sur le texte.
-<H4>Paramètres</H4>
+<H4 CLASS='st'>Paramètres</H4>
 <TT><U>h</U></TT>
 <BLOCKQUOTE>
 Hauteur de la ligne.
@@ -29,7 +29,7 @@ Chaîne à imprimer.
 <BLOCKQUOTE>
 URL ou identifiant retourné par AddLink().
 </BLOCKQUOTE>
-<H4>Exemple</H4>
+<H4 CLASS='st'>Exemple</H4>
 <TABLE WIDTH="100%" BGCOLOR="#E0E0E0"><TR><TD>
 <TT>
 //D&eacute;but en police normale<BR>
@@ -41,7 +41,7 @@ $pdf-&gt;SetFont('','U');<BR>
 $pdf-&gt;Write(5,'www.fpdf.org','http://www.fpdf.org');
 </TT>
 </TD></TR></TABLE><BR>
-<H4>Voir</H4>
+<H4 CLASS='st'>Voir</H4>
 <A HREF="setfont.htm">SetFont()</A>,
 <A HREF="settextcolor.htm">SetTextColor()</A>,
 <A HREF="addlink.htm">AddLink()</A>,

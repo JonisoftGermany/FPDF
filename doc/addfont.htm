@@ -7,20 +7,21 @@
 <BODY>
 <H2>AddFont</H2>
 <TT>AddFont(<B>string</B> family [, <B>string</B> style [, <B>string</B> file]])</TT>
-<H4>Version</H4>
+<H4 CLASS='st'>Version</H4>
 1.5
-<H4>Description</H4>
-Importe une police TrueType et la rend disponible. Il faut au préalable avoir généré un fichier
-de définition de police avec l'utilitaire makefont.php.
+<H4 CLASS='st'>Description</H4>
+Importe une police TrueType ou Type1 et la rend disponible. Il faut au préalable avoir généré un
+fichier de définition de police avec l'utilitaire makefont.php.
 <BR>
 Le fichier de définition (ainsi que le fichier de police en cas d'incorporation) doit être
 présent soit dans le répertoire courant, soit dans le répertoire indiqué par <TT>FPDF_FONTPATH</TT>
 si la constante est définie. S'il n'est pas trouvé, l'erreur "Could not include font definition
 file" est renvoyée.
-<H4>Paramètres</H4>
+<H4 CLASS='st'>Paramètres</H4>
 <TT><U>family</U></TT>
 <BLOCKQUOTE>
-Famille de la police. Le nom peut être choisi arbitrairement.
+Famille de la police. Le nom peut être choisi arbitrairement. S'il est celui d'une famille
+standard, la police correspondante sera masquée.
 </BLOCKQUOTE>
 <TT><U>style</U></TT>
 <BLOCKQUOTE>
@@ -40,7 +41,7 @@ Le fichier de définition de police.
 Par défaut, le nom est construit à partir du nom de la famille et du style, en minuscules et
 sans espace.
 </BLOCKQUOTE>
-<H4>Exemple</H4>
+<H4 CLASS='st'>Exemple</H4>
 <TABLE WIDTH="100%" BGCOLOR="#E0E0E0"><TR><TD>
 <TT>
 $pdf-&gt;AddFont('Comic','I');
@@ -54,7 +55,7 @@ est équivalent à :
 $pdf-&gt;AddFont('Comic','I','comici.php');
 </TT>
 </TD></TR></TABLE><BR>
-<H4>Voir</H4>
+<H4 CLASS='st'>Voir</H4>
 <A HREF="setfont.htm">SetFont()</A>.
 <H6></H6>
 <HR>
