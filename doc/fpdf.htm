@@ -6,14 +6,15 @@
 </HEAD>
 <BODY>
 <H2>FPDF</H2>
-<TT>FPDF([<B>string</B> orientation [, <B>string</B> unit]])</TT>
+<TT>FPDF([<B>string</B> orientation [, <B>string</B> unit [, <B>mixed</B> format]]])</TT>
 <H4>Description</H4>
-Il s'agit du constructeur de la classe. Il permet de fixer l'orientation des pages ainsi
-que l'unité de mesure utilisée dans toutes les méthodes (sauf pour les tailles de police).
+Il s'agit du constructeur de la classe. Il permet de fixer le format des pages, leur
+orientation par défaut ainsi que l'unité de mesure utilisée dans toutes les méthodes (sauf
+pour les tailles de police).
 <H4>Paramètres</H4>
 <TT><U>orientation</U></TT>
 <BLOCKQUOTE>
-Orientation des pages. Les valeurs possibles sont (indépendamment de la casse) :
+Orientation des pages par défaut. Les valeurs possibles sont (indépendamment de la casse) :
 <UL>
 <LI><TT>P</TT> ou <TT>Portrait</TT>
 <LI><TT>L</TT> ou <TT>Landscape</TT>
@@ -35,7 +36,21 @@ très courante en typographie; les tailles de police sont exprimées dans cette un
 Un pouce vaut 2,54 centimètres.
 <BR>
 <BR>
-La valeur par défaut est <TT>mm<TT>.
+La valeur par défaut est <TT>mm</TT>.
+</BLOCKQUOTE>
+<TT><U>format</U></TT>
+<BLOCKQUOTE>
+Le format utilisé pour les pages. Il peut s'agir d'une des valeurs ci-dessous (indépendamment
+de la casse) :
+<UL>
+<LI><TT>A3</TT>
+<LI><TT>A4</TT>
+<LI><TT>A5</TT>
+<LI><TT>Letter</TT>
+<LI><TT>Legal</TT>
+</UL>
+ou bien d'un format personnalisé sous la forme d'un tableau à deux éléments contenant la
+largeur et la hauteur (exprimées dans l'unité donnée par <TT>unit</TT>).
 </BLOCKQUOTE>
 <H6></H6>
 <HR>

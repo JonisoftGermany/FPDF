@@ -6,7 +6,7 @@
 </HEAD>
 <BODY>
 <H2>AddPage</H2>
-<TT>AddPage()</TT>
+<TT>AddPage([<B>string</B> orientation])</TT>
 <H4>Description</H4>
 Ajoute une nouvelle page au document. Si une page était en cours, la méthode Footer() est
 appelée pour traiter le pied de page. Puis la page est ajoutée, la position courante
@@ -19,10 +19,20 @@ police. Même chose pour les couleurs et l'épaisseur du trait.
 <BR>
 L'origine du système de coordonnées est en haut à gauche et les ordonnées croissantes vont
 vers le bas.
+<H4>Paramètres</H4>
+<TT><U>orientation</U></TT>
+<BLOCKQUOTE>
+Orientation de la page. Les valeurs possibles sont (indépendamment de la casse) :
+<UL>
+<LI><TT>P</TT> ou <TT>Portrait</TT>
+<LI><TT>L</TT> ou <TT>Landscape</TT>
+</UL>
+La valeur par défaut est celle indiquée dans le constructeur.
+</BLOCKQUOTE>
 <H4>Voir</H4>
+<A HREF="fpdf.htm">FPDF()</A>,
 <A HREF="header.htm">Header()</A>,
 <A HREF="footer.htm">Footer()</A>,
-<A HREF="setfont.htm">SetFont()</A>,
 <A HREF="setmargins.htm">SetMargins()</A>.
 <H6></H6>
 <HR>

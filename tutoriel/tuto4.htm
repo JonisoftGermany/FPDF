@@ -1,0 +1,147 @@
+<HTML>
+<HEAD>
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=ISO-8859-1">
+<TITLE>Multi-colonnes</TITLE>
+<LINK TYPE="text/css" REL="stylesheet" HREF="../fpdf.css">
+</HEAD>
+<BODY>
+<H2>Multi-colonnes</H2>
+Cet exemple est une variation du précédent montrant comment formater le texte sur plusieurs
+colonnes.
+<BR>
+<BR>
+<TABLE WIDTH="100%" BGCOLOR="#E0E0E0"><TR><TD>
+<TT>
+&lt;?php<BR>
+require('fpdf.php');<BR>
+<BR>
+class PDF extends FPDF<BR>
+{<BR>
+//Colonne courante<BR>
+var $col;<BR>
+//Ordonn&eacute;e du d&eacute;but des colonnes<BR>
+var $y0;<BR>
+<BR>
+function Header()<BR>
+{<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;//En-t&ecirc;te<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;global $titre;<BR>
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;SetFont('Arial','B',15);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;$w=$this-&gt;GetStringWidth($titre)+6;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;SetX((210-$w)/2);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;SetDrawColor(0,80,180);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;SetFillColor(230,230,0);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;SetTextColor(220,50,50);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;SetLineWidth(1);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;Cell($w,9,$titre,1,1,'C',1);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;Ln(10);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;//Sauvegarde de l'ordonn&eacute;e<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;y0=$this-&gt;GetY();<BR>
+}<BR>
+<BR>
+function Footer()<BR>
+{<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;//Pied de page<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;SetY(-15);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;SetFont('Arial','I',8);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;SetTextColor(128);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;Cell(0,10,'Page '.$this-&gt;PageNo(),0,0,'C');<BR>
+}<BR>
+<BR>
+function SetCol($col)<BR>
+{<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;//Positionnement sur une colonne<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;col=$col;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;$x=10+$col*65;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;SetLeftMargin($x);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;SetX($x);<BR>
+}<BR>
+<BR>
+function AcceptPageBreak()<BR>
+{<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;//M&eacute;thode autorisant ou non le saut de page automatique<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;if($this-&gt;col&lt;2)<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;{<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//Passage &agrave; la colonne suivante<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;SetCol($this-&gt;col+1);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//Ordonn&eacute;e en haut<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;SetY($this-&gt;y0);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//On reste sur la page<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return false;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;else<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;{<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//Retour en premi&egrave;re colonne<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;SetCol(0);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//Saut de page<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return true;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+}<BR>
+<BR>
+function TitreChapitre($num,$lib)<BR>
+{<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;//Titre<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;SetFont('Arial','',12);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;SetFillColor(200,220,255);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;Cell(0,6,&quot;Chapitre $num : $lib&quot;,0,1,'L',1);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;Ln(4);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;//Sauvegarde de l'ordonn&eacute;e<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;y0=$this-&gt;GetY();<BR>
+}<BR>
+<BR>
+function CorpsChapitre($fichier)<BR>
+{<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;//Lecture du fichier texte<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;$f=fopen($fichier,'r');<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;$txt=fread($f,filesize($fichier));<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;fclose($f);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;//Police<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;SetFont('Times','',12);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;//Sortie du texte sur 6 cm de largeur<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;MultiCell(60,5,$txt);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;Ln();<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;//Mention<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;SetFont('','I');<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;Cell(0,5,'(fin de l\'extrait)');<BR>
+}<BR>
+<BR>
+function AjouterChapitre($num,$titre,$fichier)<BR>
+{<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;//Positionnement en premi&egrave;re colonne<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;SetCol(0);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;//Ajout du chapitre<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;AddPage();<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;TitreChapitre($num,$titre);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;CorpsChapitre($fichier);<BR>
+}<BR>
+}<BR>
+<BR>
+$pdf=new PDF();<BR>
+$pdf-&gt;Open();<BR>
+$titre='Vingt mille lieues sous les mers';<BR>
+$pdf-&gt;SetTitle($titre);<BR>
+$pdf-&gt;SetAuthor('Jules Verne');<BR>
+$pdf-&gt;AjouterChapitre(1,'UN &Eacute;CUEIL FUYANT','20k_c1.txt');<BR>
+$pdf-&gt;AjouterChapitre(2,'LE POUR ET LE CONTRE','20k_c2.txt');<BR>
+$pdf-&gt;Output();<BR>
+?&gt;
+</TT>
+</TD></TR></TABLE><BR>
+<SCRIPT>
+<!--
+if(document.location.href.indexOf('http:')==0)
+{
+document.write("<A HREF='tuto4.php' CLASS='demo'>[Démo]</A><BR><BR>");
+}
+//-->
+</SCRIPT>
+La méthode-clé utilisée est <A HREF='../doc/acceptpagebreak.htm'>AcceptPageBreak()</A>. Elle permet d'accepter ou non un saut de
+page automatique. En refusant le saut et en changeant la marge et la position courante, on
+obtient le formatage en colonnes.
+<BR>
+Pour le reste, peu de changements; deux propriétés ont été ajoutées à la classe pour mémoriser
+le numéro de colonne courant ainsi que l'ordonnée du début des colonnes, et l'appel à la
+méthode MultiCell() spécifie que le texte a 6 cm de largeur.
+</BODY>
+</HTML>

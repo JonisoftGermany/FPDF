@@ -4,12 +4,6 @@ require('../fpdf.php');
 
 class PDF extends FPDF
 {
-//Constructeur (obligatoire pour PHP3)
-function PDF()
-{
-	$this->FPDF();
-}
-
 //En-tête
 function Header()
 {
@@ -33,13 +27,14 @@ function Footer()
 	//Police Arial italique 8
 	$this->SetFont('Arial','I',8);
 	//Numéro de page
-	$this->Cell(0,10,'Page '.$this->PageNo(),0,0,'C');
+	$this->Cell(0,10,'Page '.$this->PageNo().'/{nb}',0,0,'C');
 }
 }
 
 //Instanciation de la classe dérivée
 $pdf=new PDF();
 $pdf->Open();
+$pdf->AliasNbPages();
 $pdf->AddPage();
 $pdf->SetFont('Times','',12);
 for($i=1;$i<=40;$i++)

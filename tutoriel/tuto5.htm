@@ -1,0 +1,148 @@
+<HTML>
+<HEAD>
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=ISO-8859-1">
+<TITLE>Tableaux</TITLE>
+<LINK TYPE="text/css" REL="stylesheet" HREF="../fpdf.css">
+</HEAD>
+<BODY>
+<H2>Tableaux</H2>
+Ce tutoriel montre comment réaliser des tableaux simplement.
+<BR>
+<BR>
+<TABLE WIDTH="100%" BGCOLOR="#E0E0E0"><TR><TD>
+<TT>
+&lt;?php<BR>
+require('fpdf.php');<BR>
+<BR>
+class PDF extends FPDF<BR>
+{<BR>
+//Chargement des donn&eacute;es<BR>
+function LoadData($file)<BR>
+{<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;//Lecture des lignes du fichier<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;$lines=file($file);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;$data=array();<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;foreach($lines as $line)<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$data[]=explode(';',chop($line));<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;return $data;<BR>
+}<BR>
+<BR>
+//Tableau simple<BR>
+function BasicTable($header,$data)<BR>
+{<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;//En-t&ecirc;te<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;foreach($header as $col)<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;Cell(40,7,$col,1);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;Ln();<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;//Donn&eacute;es<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;foreach($data as $row)<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;{<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreach($row as $col)<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;Cell(40,6,$col,1);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;Ln();<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+}<BR>
+<BR>
+//Tableau am&eacute;lior&eacute;<BR>
+function ImprovedTable($header,$data)<BR>
+{<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;//Largeurs des colonnes<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;$w=array(40,35,45,40);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;//En-t&ecirc;te<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;for($i=0;$i&lt;count($header);$i++)<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;Cell($w[$i],7,$header[$i],1,0,'C');<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;Ln();<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;//Donn&eacute;es<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;foreach($data as $row)<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;{<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;Cell($w[0],6,$row[0],'LR');<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;Cell($w[1],6,$row[1],'LR');<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;Cell($w[2],6,number_format($row[2],0,',',' '),'LR',0,'R');<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;Cell($w[3],6,number_format($row[3],0,',',' '),'LR',0,'R');<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;Ln();<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;//Trait de terminaison<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;Cell(array_sum($w),0,'','T');<BR>
+}<BR>
+<BR>
+//Tableau color&eacute;<BR>
+function FancyTable($header,$data)<BR>
+{<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;//Couleurs, &eacute;paisseur du trait et police grasse<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;SetFillColor(255,0,0);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;SetTextColor(255);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;SetDrawColor(128,0,0);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;SetLineWidth(.3);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;SetFont('','B');<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;//En-t&ecirc;te<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;$w=array(40,35,45,40);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;for($i=0;$i&lt;count($header);$i++)<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;Cell($w[$i],7,$header[$i],1,0,'C',1);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;Ln();<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;//Restauration des couleurs et de la police<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;SetFillColor(224,235,255);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;SetTextColor(0);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;SetFont('');<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;//Donn&eacute;es<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;$fill=0;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;foreach($data as $row)<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;{<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;Cell($w[0],6,$row[0],'LR',0,'L',$fill);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;Cell($w[1],6,$row[1],'LR',0,'L',$fill);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;Cell($w[2],6,number_format($row[2],0,',',' '),'LR',0,'R',$fill);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;Cell($w[3],6,number_format($row[3],0,',',' '),'LR',0,'R',$fill);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;Ln();<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$fill=!$fill;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;Cell(array_sum($w),0,'','T');<BR>
+}<BR>
+}<BR>
+<BR>
+$pdf=new PDF();<BR>
+$pdf-&gt;Open();<BR>
+//Titres des colonnes<BR>
+$header=array('Pays','Capitale','Superficie (km&sup2;)','Pop. (milliers)');<BR>
+//Chargement des donn&eacute;es<BR>
+$data=$pdf-&gt;LoadData('pays.txt');<BR>
+$pdf-&gt;SetFont('Arial','',14);<BR>
+$pdf-&gt;AddPage();<BR>
+$pdf-&gt;BasicTable($header,$data);<BR>
+$pdf-&gt;AddPage();<BR>
+$pdf-&gt;ImprovedTable($header,$data);<BR>
+$pdf-&gt;AddPage();<BR>
+$pdf-&gt;FancyTable($header,$data);<BR>
+$pdf-&gt;Output();<BR>
+?&gt;
+</TT>
+</TD></TR></TABLE><BR>
+<SCRIPT>
+<!--
+if(document.location.href.indexOf('http:')==0)
+{
+document.write("<A HREF='tuto5.php' CLASS='demo'>[Démo]</A><BR><BR>");
+}
+//-->
+</SCRIPT>
+Un tableau n'étant qu'un ensemble de cellules, il est naturel de les construire à partir de
+ces dernières. Le premier est réalisé de la manière la plus élémentaire qui soit : de simples
+cellules encadrées, toutes de la même taille et alignées à gauche. Le résultat est
+rudimentaire mais très rapide à obtenir.
+<BR>
+<BR>
+Le deuxième tableau apporte quelques améliorations : chaque colonne a sa propre largeur, les
+titres sont centrés et les nombres cadrés à droite. De plus, les traits horizontaux ont été
+enlevés. Ceci est réalisé grâce au paramètre <TT>border</TT> de la méthode <A HREF='../doc/cell.htm'>Cell()</A>, qui
+permet de spécifier quels bords de la cellule doivent être tracés. Dans le cas présent, on
+désire les bords gauches (<TT>L</TT>) et droits (<TT>R</TT>). Reste le problème du trait
+horizontal final pour refermer le tableau. Il y a deux possibilités : soit tester dans la
+boucle si on se trouve sur la dernière ligne, auquel cas on utilise <TT>LRB</TT> pour le
+paramètre <TT>border</TT>; soit, comme c'est fait ici, ajouter le trait une fois la boucle
+terminée.
+<BR>
+<BR>
+Le troisième tableau est semblable au deuxième mais utilise des couleurs. Il suffit pour cela
+de préciser les couleurs de fond, de texte et de trait souhaitées. L'alternance de couleur
+pour les lignes est obtenue en utilisant des cellules à fond alternativement coloré et
+transparent.
+</BODY>
+</HTML>

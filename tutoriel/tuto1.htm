@@ -27,21 +27,23 @@ $pdf-&gt;Output();<BR>
 <!--
 if(document.location.href.indexOf('http:')==0)
 {
-document.write("<A HREF='tuto1.php'>[Démo]</A><BR><BR>");
+document.write("<A HREF='tuto1.php' CLASS='demo'>[Démo]</A><BR><BR>");
 }
 //-->
 </SCRIPT>
 Après avoir inclus la librairie, un object FPDF est créé.
 Le constructeur <A HREF='../doc/fpdf.htm'>FPDF()</A> est utilisé ici avec les valeurs par défaut. Les pages sont en
-portrait et l'unité de mesure est le millimètre. On aurait pu l'indiquer explicitement par :
+portrait A4 et l'unité de mesure est le millimètre. On aurait pu l'indiquer explicitement par :
 <BR>
 <BR>
 <TABLE WIDTH="100%" BGCOLOR="#E0E0E0"><TR><TD>
 <TT>
-$pdf=new FPDF('P','mm');
+$pdf=new FPDF('P','mm','A4');
 </TT>
 </TD></TR></TABLE><BR>
-Il est possible de passer en paysage (L) et d'utiliser d'autres unités de mesure (pt, cm, in).
+Il est possible de passer en paysage (<TT>L</TT>), d'utiliser d'autres formats de page (comme
+<TT>A3</TT> et <TT>A5</TT>) ainsi que d'autres unités de mesure (<TT>pt</TT>, <TT>cm</TT>,
+<TT>in</TT>).
 <BR>
 <BR>
 <A HREF='../doc/open.htm'>Open()</A> commence le document PDF. Il n'y a pour l'instant encore aucune page, c'est
@@ -67,9 +69,9 @@ Symbol et ZapfDingbats.
 <BR>
 On imprime ensuite une cellule grâce à <A HREF='../doc/cell.htm'>Cell()</A>. Une cellule est une zone rectangulaire,
 éventuellement encadrée, qui contient du texte. Elle est imprimée à la position courante.
-On spécifie ses dimensions, le texte (centré ou aligné), si elle doit être entourée, et si
-la position courante doit être déplacée à droite ou doit au contraire aller à la ligne
-suivante. On aurait encadré le texte comme ceci :
+On spécifie ses dimensions, le texte (centré ou aligné), si des bords doivent être tracés,
+et si la position courante doit être déplacée à droite, en dessous ou bien doit retourner
+au début de la ligne suivante. On aurait par exemple encadré le texte comme ceci :
 <BR>
 <BR>
 <TABLE WIDTH="100%" BGCOLOR="#E0E0E0"><TR><TD>
@@ -90,8 +92,13 @@ Remarque : le retour à la ligne peut également s'effectuer grâce à la méthode <A
 dernière permet de préciser en plus la hauteur du saut de ligne.
 <BR>
 <BR>
-Enfin, le document est terminé et envoyé au navigateur grâce à
-<A HREF='../doc/output.htm'>Output()</A>. On aurait pu le sauvegarder dans un fichier en passant le
-nom souhaité.
+Enfin, le document est terminé et envoyé au navigateur grâce à <A HREF='../doc/output.htm'>Output()</A>. On aurait pu
+le sauvegarder directement dans un fichier en passant le nom souhaité.
+<BR>
+<BR>
+Attention : dans le cas où le PDF est envoyé au navigateur, rien d'autre ne doit être envoyé,
+ni avant, ni après (le moindre espace ou retour-chariot compte). Si vous envoyez des données
+avant, vous obtiendrez le message : "Some data has already been output to browser, can't send
+PDF file". Si vous en envoyez après, il se peut que le navigateur affiche une page blanche.
 </BODY>
 </HTML>

@@ -16,12 +16,6 @@ require('fpdf.php');<BR>
 <BR>
 class PDF extends FPDF<BR>
 {<BR>
-//Constructeur (obligatoire pour PHP3)<BR>
-function PDF()<BR>
-{<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;FPDF();<BR>
-}<BR>
-<BR>
 //En-t&ecirc;te<BR>
 function Header()<BR>
 {<BR>
@@ -45,13 +39,14 @@ function Footer()<BR>
 &nbsp;&nbsp;&nbsp;&nbsp;//Police Arial italique 8<BR>
 &nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;SetFont('Arial','I',8);<BR>
 &nbsp;&nbsp;&nbsp;&nbsp;//Num&eacute;ro de page<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;Cell(0,10,'Page '.$this-&gt;PageNo(),0,0,'C');<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;Cell(0,10,'Page '.$this-&gt;PageNo().'/{nb}',0,0,'C');<BR>
 }<BR>
 }<BR>
 <BR>
 //Instanciation de la classe d&eacute;riv&eacute;e<BR>
 $pdf=new PDF();<BR>
 $pdf-&gt;Open();<BR>
+$pdf-&gt;AliasNbPages();<BR>
 $pdf-&gt;AddPage();<BR>
 $pdf-&gt;SetFont('Times','',12);<BR>
 for($i=1;$i&lt;=40;$i++)<BR>
@@ -64,20 +59,27 @@ $pdf-&gt;Output();<BR>
 <!--
 if(document.location.href.indexOf('http:')==0)
 {
-document.write("<A HREF='tuto2.php'>[Démo]</A><BR><BR>");
+document.write("<A HREF='tuto2.php' CLASS='demo'>[Démo]</A><BR><BR>");
 }
 //-->
 </SCRIPT>
 Cet exemple exploite les méthodes <A HREF='../doc/header.htm'>Header()</A> et <A HREF='../doc/footer.htm'>Footer()</A> pour traiter les en-têtes et
-pieds de page. Leur implémentation dans la classe FPDF est vide, aussi devez-vous dériver la
-classe et les redéfinir.
+pieds de page. Elles sont appelées automatiquement. Leur implémentation dans la classe FPDF
+est vide, aussi doit-on dériver la classe et les redéfinir.
 <BR>
-Le logo est imprimé grâce à la méthode <A HREF='../doc/image.htm'>Image()</A> en précisant le
-coin supérieur gauche et la largeur.
+<BR>
+Le logo est imprimé grâce à la méthode <A HREF='../doc/image.htm'>Image()</A> en précisant le coin supérieur gauche et
+la largeur. La hauteur est calculée automatiquement afin de respecter la proportion de l'image.
+<BR>
 <BR>
 Pour imprimer le numéro de page, une valeur nulle est passée comme largeur de cellule. Cela
 signifie que cette dernière doit s'étendre jusqu'à la marge droite de la page; c'est pratique
-pour centrer du texte. A noter l'utilisation de la méthode <A HREF='../doc/sety.htm'>SetY()</A> qui permet de se
+pour centrer du texte. Le numéro de page courant est retourné par la méthode <A HREF='../doc/pageno.htm'>PageNo()</A>; le
+nombre total de pages s'obtient quant à lui grâce à la valeur spéciale <TT>{nb}</TT> qui sera
+substituée lorsque le document sera terminé (à condition d'avoir au préalable appelé
+<A HREF='../doc/aliasnbpages.htm'>AliasNbPages()</A>).
+<BR>
+A noter l'utilisation de la méthode <A HREF='../doc/sety.htm'>SetY()</A> qui permet de se
 positionner de manière absolue dans la page, à partir du haut ou du bas.
 <BR>
 <BR>

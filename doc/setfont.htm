@@ -12,6 +12,8 @@ Fixe la police utilisée pour imprimer les chaînes de caractères. Il est obligato
 d'appeler cette méthode au moins une fois avant d'imprimer du texte, sinon le document
 résultant ne sera pas valide.
 <BR>
+Le jeux de caractères utilisé est Windows-1252 (Europe de l'ouest).
+<BR>
 La méthode peut être appelée avant que la première page ne soit créée et la police est
 conservée de page en page.
 <BR>
@@ -78,13 +80,13 @@ depuis le début du document, la valeur prise est 12.
 <TABLE WIDTH="100%" BGCOLOR="#E0E0E0"><TR><TD>
 <TT>
 //Times normal 12<BR>
-$pdf->SetFont('Times');<BR>
+$pdf-&gt;SetFont('Times');<BR>
 //Arial gras 14<BR>
-$pdf->SetFont('Arial','B',14);<BR>
-//Enlève le gras<BR>
-$pdf->SetFont('');<BR>
+$pdf-&gt;SetFont('Arial','B',14);<BR>
+//Enl&egrave;ve le gras<BR>
+$pdf-&gt;SetFont('');<BR>
 //Times normal 14<BR>
-$pdf->SetFont('Times');
+$pdf-&gt;SetFont('Times');
 </TT>
 </TD></TR></TABLE><BR>
 <H4>Voir</H4>

@@ -6,14 +6,12 @@
 </HEAD>
 <BODY>
 <H2>Cell</H2>
-<TT>Cell(<B>double</B> w [, <B>double</B> h [, <B>string</B> txt [, <B>int</B> border [, <B>int</B> ln [, <B>string</B> align [, <B>int</B> fill]]]]]])</TT>
+<TT>Cell(<B>double</B> w [, <B>double</B> h [, <B>string</B> txt [, <B>mixed</B> border [, <B>int</B> ln [, <B>string</B> align [, <B>int</B> fill]]]]]])</TT>
 <H4>Description</H4>
-Imprime une cellule (zone rectangulaire) avec éventuellement un cadre et une chaîne de
-caractères. Le coin supérieur gauche de la cellule correspond à la position courante. Le
+Imprime une cellule (zone rectangulaire) avec éventuellement un cadre, un fond et une chaîne
+de caractères. Le coin supérieur gauche de la cellule correspond à la position courante. Le
 texte peut être aligné ou centré. Après l'appel, la position courante se déplace à droite
 ou un retour à la ligne est effectué.
-<BR>
-La chaîne doit utiliser l'encodage de caractères de Windows.
 <BR>
 Si le saut de page automatique est activé et que la cellule dépasse le seuil de déclenchement,
 un saut de page est effectué avant de l'imprimer.
@@ -26,7 +24,7 @@ la page (la marge droite étant égale à la marge gauche).
 <TT><U>h</U></TT>
 <BLOCKQUOTE>
 Hauteur de la cellule.
-Valeur par défaut : 0.
+Valeur par défaut : <TT>0</TT>.
 </BLOCKQUOTE>
 <TT><U>txt</U></TT>
 <BLOCKQUOTE>
@@ -35,13 +33,32 @@ Valeur par défaut : chaîne vide.
 </BLOCKQUOTE>
 <TT><U>border</U></TT>
 <BLOCKQUOTE>
-Indique si un cadre doit être tracé autour de la cellule (0 : non, 1 : oui).
-Valeur par défaut : 0.
+Indique si des bords doivent être tracés autour de la cellule. La valeur peut être soit un
+nombre :
+<UL>
+<LI><TT>0</TT> : aucun bord
+<LI><TT>1</TT> : cadre
+</UL>
+soit une chaîne contenant certains ou tous les caractères suivants (dans un ordre quelconque) :
+<UL>
+<LI><TT>L</TT> : gauche
+<LI><TT>T</TT> : haut
+<LI><TT>R</TT> : droit
+<LI><TT>B</TT> : bas
+</UL>
+La valeur par défaut est <TT>0</TT>.
 </BLOCKQUOTE>
 <TT><U>ln</U></TT>
 <BLOCKQUOTE>
-Indique si la position courante se décale à droite (0) ou passe à la ligne (1). Mettre 1
-est équivalent à appeler la méthode Ln() juste après Cell(). Valeur par défaut : 0.
+Indique où se déplace la position courante après l'appel à la méthode. Les valeurs possibles
+sont :
+<UL>
+<LI><TT>0</TT> : à droite
+<LI><TT>1</TT> : à la ligne
+<LI><TT>2</TT> : en dessous
+</UL>
+Mettre <TT>1</TT> est équivalent à appeler la méthode Ln() juste après Cell().
+La valeur par défaut est <TT>0</TT>.
 </BLOCKQUOTE>
 <TT><U>align</U></TT>
 <BLOCKQUOTE>
@@ -60,12 +77,12 @@ Valeur par défaut : 0.
 <H4>Exemple</H4>
 <TABLE WIDTH="100%" BGCOLOR="#E0E0E0"><TR><TD>
 <TT>
-//Sélection de la police<BR>
-$pdf->SetFont('Arial','B',16);<BR>
-//Décalage de 8 cm à droite<BR>
-$pdf->Cell(80);<BR>
-//Texte centré dans une cellule 20*10 mm encadrée et retour à la ligne<BR>
-$pdf->Cell(20,10,'Titre',1,1,'C');
+//S&eacute;lection de la police<BR>
+$pdf-&gt;SetFont('Arial','B',16);<BR>
+//D&eacute;calage de 8 cm &agrave; droite<BR>
+$pdf-&gt;Cell(80);<BR>
+//Texte centr&eacute; dans une cellule 20*10 mm encadr&eacute;e et retour &agrave; la ligne<BR>
+$pdf-&gt;Cell(20,10,'Titre',1,1,'C');
 </TT>
 </TD></TR></TABLE><BR>
 <H4>Voir</H4>

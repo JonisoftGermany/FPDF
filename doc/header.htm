@@ -17,26 +17,17 @@ redéfinir la méthode si vous voulez un traitement particulier pour vos en-têtes.
 <TT>
 class PDF extends FPDF<BR>
 {<BR>
-<BR>
-//Constructeur (obligatoire pour PHP3)<BR>
-function PDF()<BR>
-{<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;$this->FPDF();<BR>
-}<BR>
-<BR>
-//En-tête<BR>
 function Header()<BR>
 {<BR>
 &nbsp;&nbsp;&nbsp;&nbsp;//Police Arial gras 15<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;$this->SetFont('Arial','B',15);<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;//Décalage<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;$this->Cell(80);<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;//Titre encadré<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;$this->Cell(30,10,'Titre',1,0,'C');<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;SetFont('Arial','B',15);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;//D&eacute;calage<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;Cell(80);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;//Titre encadr&eacute;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;Cell(30,10,'Titre',1,0,'C');<BR>
 &nbsp;&nbsp;&nbsp;&nbsp;//Saut de ligne<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;$this->Ln(20);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;Ln(20);<BR>
 }<BR>
-<BR>
 }
 </TT>
 </TD></TR></TABLE><BR>

@@ -1,17 +1,22 @@
 <HTML>
 <HEAD>
 <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=ISO-8859-1">
-<TITLE>Footer</TITLE>
+<TITLE>AliasNbPages</TITLE>
 <LINK TYPE="text/css" REL="stylesheet" HREF="../fpdf.css">
 </HEAD>
 <BODY>
-<H2>Footer</H2>
-<TT>Footer()</TT>
+<H2>AliasNbPages</H2>
+<TT>AliasNbPages([<B>string</B> alias])</TT>
+<H4>Version</H4>
+1.4
 <H4>Description</H4>
-Cette méthode permet de définir le pied de page. Elle est appelée automatiquement par
-AddPage() et Close() et ne devrait donc pas être appelée explicitement par l'application.
-L'implémentation de Footer() dans FPDF est vide, donc vous devez dériver la classe et
-redéfinir la méthode si vous voulez un traitement particulier pour vos pieds de page.
+Définit un alias pour le nombre total de pages. Cet alias sera substitué lors de la fermeture
+du document.
+<H4>Paramètres</H4>
+<TT><U>alias</U></TT>
+<BLOCKQUOTE>
+L'alias. Valeur par défaut : <TT>{nb}</TT>.
+</BLOCKQUOTE>
 <H4>Exemple</H4>
 <TABLE WIDTH="100%" BGCOLOR="#E0E0E0"><TR><TD>
 <TT>
@@ -23,14 +28,18 @@ function Footer()<BR>
 &nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;SetY(-15);<BR>
 &nbsp;&nbsp;&nbsp;&nbsp;//Police Arial italique 8<BR>
 &nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;SetFont('Arial','I',8);<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;//Num&eacute;ro de page centr&eacute;<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;Cell(0,10,'Page '.$this-&gt;PageNo(),0,0,'C');<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;//Num&eacute;ro et nombre de pages<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;Cell(0,10,'Page '.$this-&gt;PageNo().'/{nb}',0,0,'C');<BR>
 }<BR>
-}
+}<BR>
+<BR>
+$pdf=new PDF();<BR>
+$pdf-&gt;AliasNbPages();
 </TT>
 </TD></TR></TABLE><BR>
 <H4>Voir</H4>
-<A HREF="header.htm">Header()</A>.
+<A HREF="pageno.htm">PageNo()</A>,
+<A HREF="footer.htm">Footer()</A>.
 <H6></H6>
 <HR>
 <DIV ALIGN="CENTER"><A HREF="index.htm">Index</A></DIV>
