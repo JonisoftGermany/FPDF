@@ -6,17 +6,22 @@
 </HEAD>
 <BODY>
 <H2>SetLeftMargin</H2>
-<TT>SetLeftMargin(<B>double</B> margin)</TT>
+<TT>SetLeftMargin(<B>float</B> margin)</TT>
 <H4>Version</H4>
 1.4
 <H4>Description</H4>
-Fixe la marge gauche.
+Fixe la marge gauche. La méthode peut être appelée avant de créer la première page.
+<BR>
+Si l'abscisse courante se retrouve hors page, elle est ramenée à la marge.
 <H4>Paramètres</H4>
 <TT><U>margin</U></TT>
 <BLOCKQUOTE>
 La marge.
 </BLOCKQUOTE>
 <H4>Voir</H4>
+<A HREF="settopmargin.htm">SetTopMargin()</A>,
+<A HREF="setrightmargin.htm">SetRightMargin()</A>,
+<A HREF="setautopagebreak.htm">SetAutoPageBreak()</A>,
 <A HREF="setmargins.htm">SetMargins()</A>.
 <H6></H6>
 <HR>

@@ -6,31 +6,40 @@
 </HEAD>
 <BODY>
 <H2>SetDisplayMode</H2>
-<TT>SetDisplayMode(<B>string</B> mode [, <B>int</B> z])</TT>
+<TT>SetDisplayMode(<B>mixed</B> zoom [, <B>string</B> layout])</TT>
 <H4>Version</H4>
 1.2
 <H4>Description</H4>
-Contrôle la manière dont le document sera affiché par Acrobat. On peut afficher la page en
-entier, occuper toute la largeur de la fenêtre, utiliser la taille réelle, choisir un
-facteur de zoom ou encore utiliser la valeur par défaut de l'utilisateur (celle paramétrée
-dans le menu Préférences).
+Contrôle la manière dont le document sera affiché par le lecteur. On peut régler le niveau de
+zoom : afficher la page en entier, occuper toute la largeur de la fenêtre, utiliser la taille
+réelle, choisir un facteur de zoom particulier ou encore utiliser la valeur par défaut de
+l'utilisateur (celle paramétrée dans le menu Préférences d'Acrobat). On peut également spécifier
+la disposition des pages : une seule à la fois, affichage continu, pages sur deux colonnes ou
+réglage par défaut.
 <BR>
-Par défaut, les documents sont en mode pleine largeur.
+Par défaut, les documents sont en mode pleine largeur avec affichage continu.
 <H4>Paramètres</H4>
-<TT><U>mode</U></TT>
+<TT><U>zoom</U></TT>
 <BLOCKQUOTE>
-Le mode à utiliser. Il peut prendre les valeurs suivantes :
+Le zoom à utiliser. Il peut prendre l'une des valeurs chaînes suivantes :
 <UL>
 <LI><TT>fullpage</TT> : affiche entièrement les pages à l'écran
 <LI><TT>fullwidth</TT> : maximise la largeur des pages
 <LI><TT>real</TT> : affiche la taille réelle (équivaut à un zoom de 100%)
-<LI><TT>zoom</TT> : applique le facteur de zoom indiqué par <TT>z</TT>
-<LI><TT>default</TT> : utilise le mode d'affichage par défaut d'Acrobat
+<LI><TT>default</TT> : utilise le mode d'affichage par défaut du lecteur
 </UL>
+ou bien un entier indiquant le facteur de zoom à utiliser.
 </BLOCKQUOTE>
-<TT><U>z</U></TT>
+<TT><U>layout</U></TT>
 <BLOCKQUOTE>
-Dans le cas où <TT>mode</TT> vaut <TT>zoom</TT>, indique le facteur à appliquer.
+La disposition des pages. Les valeurs possibles sont :
+<UL>
+<LI><TT>single</TT> : affiche une seule page à la fois
+<LI><TT>continuous</TT> : affichage continu d'une page à l'autre
+<LI><TT>two</TT> : affiche deux pages sur deux colonnes
+<LI><TT>default</TT> : utilise le mode d'affichage par défaut du lecteur
+</UL>
+La valeur par défaut est <TT>continuous</TT>.
 </BLOCKQUOTE>
 <H6></H6>
 <HR>

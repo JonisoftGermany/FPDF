@@ -27,7 +27,7 @@ $pdf-&gt;Output();<BR>
 <!--
 if(document.location.href.indexOf('http:')==0)
 {
-document.write("<A HREF='tuto1.php' CLASS='demo'>[Démo]</A><BR><BR>");
+document.write("<A HREF='tuto1.php' TARGET='_blank' CLASS='demo'>[Démo]</A><BR><BR>");
 }
 //-->
 </SCRIPT>
@@ -61,10 +61,11 @@ le document serait invalide. On choisit de l'Arial gras en taille 16 :
 $pdf-&gt;SetFont('Arial','B',16);
 </TT>
 </TD></TR></TABLE><BR>
-On aurait pu spécifier de l'italique avec I ou une police sans style avec une chaîne vide.
-A noter que la taille de la police est ici donnée en points, pas en millimètres (ou autre
-unité choisie); c'est la seule exception. Les autres polices disponibles sont Times, Courier,
-Symbol et ZapfDingbats.
+On aurait pu spécifier de l'italique avec <TT>I</TT>, du souligné avec <TT>U</TT> ou une police
+normale avec une chaîne vide (ou bien encore une combinaison de styles). A noter que la
+taille de la police est ici donnée en points, pas en millimètres (ou autre unité choisie); c'est
+la seule exception. Les autres polices standard disponibles sont Times, Courier, Symbol et
+ZapfDingbats.
 <BR>
 <BR>
 On imprime ensuite une cellule grâce à <A HREF='../doc/cell.htm'>Cell()</A>. Une cellule est une zone rectangulaire,

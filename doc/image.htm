@@ -6,7 +6,7 @@
 </HEAD>
 <BODY>
 <H2>Image</H2>
-<TT>Image(<B>string</B> file, <B>double</B> x, <B>double</B> y, <B>double</B> w [, <B>double</B> h [, <B>string</B> type]])</TT>
+<TT>Image(<B>string</B> file, <B>float</B> x, <B>float</B> y, <B>float</B> w [, <B>float</B> h [, <B>string</B> type [, <B>mixed</B> link]]])</TT>
 <H4>Version</H4>
 1.1
 <H4>Description</H4>
@@ -38,11 +38,12 @@ mais ne sont pas supportés :
 Si une couleur transparente est définie, elle sera prise en compte (mais ne sera interprétée
 qu'à partir d'Acrobat 4).
 <BR>
-<BR>
 Le format peut être spécifié explicitement ou déduit de l'extension du fichier.
 <BR>
+Il est possible de mettre un lien sur l'image.
 <BR>
-Si une image est utilisée plusieurs fois, une seule copie sera intégrée au document.
+<BR>
+Remarque : si une image est utilisée plusieurs fois, une seule copie sera intégrée au document.
 <H4>Paramètres</H4>
 <TT><U>file</U></TT>
 <BLOCKQUOTE>
@@ -72,6 +73,12 @@ Format de l'image. Les valeurs possibles sont (indépendamment de la casse) : <TT
 <TT>JPEG</TT>, <TT>PNG</TT>.
 S'il n'est pas précisé, le type est déduit de l'extension du fichier.
 </BLOCKQUOTE>
+<TT><U>link</U></TT>
+<BLOCKQUOTE>
+URL ou identifiant retourné par AddLink().
+</BLOCKQUOTE>
+<H4>Voir</H4>
+<A HREF="addlink.htm">AddLink()</A>.
 <H6></H6>
 <HR>
 <DIV ALIGN="CENTER"><A HREF="index.htm">Index</A></DIV>

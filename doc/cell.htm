@@ -6,12 +6,14 @@
 </HEAD>
 <BODY>
 <H2>Cell</H2>
-<TT>Cell(<B>double</B> w [, <B>double</B> h [, <B>string</B> txt [, <B>mixed</B> border [, <B>int</B> ln [, <B>string</B> align [, <B>int</B> fill]]]]]])</TT>
+<TT>Cell(<B>float</B> w [, <B>float</B> h [, <B>string</B> txt [, <B>mixed</B> border [, <B>int</B> ln [, <B>string</B> align [, <B>int</B> fill [, <B>mixed</B> link]]]]]]])</TT>
+<H4>Version</H4>
+1.0
 <H4>Description</H4>
-Imprime une cellule (zone rectangulaire) avec éventuellement un cadre, un fond et une chaîne
+Imprime une cellule (zone rectangulaire) avec éventuellement des bords, un fond et une chaîne
 de caractères. Le coin supérieur gauche de la cellule correspond à la position courante. Le
 texte peut être aligné ou centré. Après l'appel, la position courante se déplace à droite
-ou un retour à la ligne est effectué.
+ou un retour à la ligne est effectué. Il est possible de mettre un lien sur le texte.
 <BR>
 Si le saut de page automatique est activé et que la cellule dépasse le seuil de déclenchement,
 un saut de page est effectué avant de l'imprimer.
@@ -19,7 +21,7 @@ un saut de page est effectué avant de l'imprimer.
 <TT><U>w</U></TT>
 <BLOCKQUOTE>
 Largeur de la cellule. Si elle vaut <TT>0</TT>, la cellule s'étend jusqu'à la marge droite de
-la page (la marge droite étant égale à la marge gauche).
+la page.
 </BLOCKQUOTE>
 <TT><U>h</U></TT>
 <BLOCKQUOTE>
@@ -54,10 +56,10 @@ Indique où se déplace la position courante après l'appel à la méthode. Les valeu
 sont :
 <UL>
 <LI><TT>0</TT> : à droite
-<LI><TT>1</TT> : à la ligne
+<LI><TT>1</TT> : au début de la ligne suivante
 <LI><TT>2</TT> : en dessous
 </UL>
-Mettre <TT>1</TT> est équivalent à appeler la méthode Ln() juste après Cell().
+Mettre <TT>1</TT> est équivalent à mettre <TT>0</TT> et appeler la méthode Ln() juste après.
 La valeur par défaut est <TT>0</TT>.
 </BLOCKQUOTE>
 <TT><U>align</U></TT>
@@ -73,6 +75,10 @@ Permet de centrer ou d'aligner le texte. Les valeurs possibles sont :
 <BLOCKQUOTE>
 Indique si le fond de la cellule doit être coloré (1) ou transparent (0).
 Valeur par défaut : 0.
+</BLOCKQUOTE>
+<TT><U>link</U></TT>
+<BLOCKQUOTE>
+URL ou identifiant retourné par AddLink().
 </BLOCKQUOTE>
 <H4>Exemple</H4>
 <TABLE WIDTH="100%" BGCOLOR="#E0E0E0"><TR><TD>
@@ -91,8 +97,10 @@ $pdf-&gt;Cell(20,10,'Titre',1,1,'C');
 <A HREF="setfillcolor.htm">SetFillColor()</A>,
 <A HREF="settextcolor.htm">SetTextColor()</A>,
 <A HREF="setlinewidth.htm">SetLineWidth()</A>,
+<A HREF="addlink.htm">AddLink()</A>,
 <A HREF="ln.htm">Ln()</A>,
 <A HREF="multicell.htm">MultiCell()</A>,
+<A HREF="write.htm">Write()</A>,
 <A HREF="setautopagebreak.htm">SetAutoPageBreak()</A>.
 <H6></H6>
 <HR>

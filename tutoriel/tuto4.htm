@@ -18,7 +18,7 @@ require('fpdf.php');<BR>
 class PDF extends FPDF<BR>
 {<BR>
 //Colonne courante<BR>
-var $col;<BR>
+var $col=0;<BR>
 //Ordonn&eacute;e du d&eacute;but des colonnes<BR>
 var $y0;<BR>
 <BR>
@@ -104,12 +104,12 @@ function CorpsChapitre($fichier)<BR>
 &nbsp;&nbsp;&nbsp;&nbsp;//Mention<BR>
 &nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;SetFont('','I');<BR>
 &nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;Cell(0,5,'(fin de l\'extrait)');<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;//Retour en premi&egrave;re colonne<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;SetCol(0);<BR>
 }<BR>
 <BR>
 function AjouterChapitre($num,$titre,$fichier)<BR>
 {<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;//Positionnement en premi&egrave;re colonne<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;SetCol(0);<BR>
 &nbsp;&nbsp;&nbsp;&nbsp;//Ajout du chapitre<BR>
 &nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;AddPage();<BR>
 &nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;TitreChapitre($num,$titre);<BR>
@@ -132,16 +132,16 @@ $pdf-&gt;Output();<BR>
 <!--
 if(document.location.href.indexOf('http:')==0)
 {
-document.write("<A HREF='tuto4.php' CLASS='demo'>[Démo]</A><BR><BR>");
+document.write("<A HREF='tuto4.php' TARGET='_blank' CLASS='demo'>[Démo]</A><BR><BR>");
 }
 //-->
 </SCRIPT>
 La méthode-clé utilisée est <A HREF='../doc/acceptpagebreak.htm'>AcceptPageBreak()</A>. Elle permet d'accepter ou non un saut de
-page automatique. En refusant le saut et en changeant la marge et la position courante, on
-obtient le formatage en colonnes.
+page automatique. En refusant le saut et en modifiant la marge gauche (par <A HREF='../doc/setleftmargin.htm'>SetLeftMargin()</A>),
+on obtient le formatage en colonnes.
 <BR>
 Pour le reste, peu de changements; deux propriétés ont été ajoutées à la classe pour mémoriser
-le numéro de colonne courant ainsi que l'ordonnée du début des colonnes, et l'appel à la
-méthode MultiCell() spécifie que le texte a 6 cm de largeur.
+le numéro de colonne courant ainsi que l'ordonnée du début des colonnes, et l'appel à MultiCell()
+spécifie que le texte a 6 cm de largeur.
 </BODY>
 </HTML>

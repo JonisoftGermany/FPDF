@@ -6,6 +6,17 @@
 </HEAD>
 <BODY>
 <H2>Historique</H2>
+<B>v1.5</B> (28/05/2002)
+<BLOCKQUOTE>
+- Support des polices TrueType (AddFont()) et des encodages.<BR>
+- Ajout de la méthode Write().<BR>
+- Ajout du style souligné.<BR>
+- Support des liens internes et externes (AddLink(), SetLink(), Link()).<BR>
+- Gestion de la marge droite et ajout des méthodes SetRightMargin() et SetTopMargin().<BR>
+- Modification de SetDisplayMode() pour sélectionner un affichage continu ou en colonnes.<BR>
+- Le paramètre border de MultiCell() permet de choisir les bords à tracer comme Cell().<BR>
+- Lorsqu'un document ne contient aucune page, Close() appelle maintenant AddPage() au lieu de provoquer une erreur fatale.<BR>
+</BLOCKQUOTE>
 <B>v1.41</B> (13/03/2002)
 <BLOCKQUOTE>
 - Correction de SetDisplayMode() qui ne fonctionnait plus (le visualiseur PDF utilisait l'affichage par défaut).<BR>
@@ -16,6 +27,7 @@
 - Compression des pages (SetCompression()).<BR>
 - Choix du format des pages et possibilité de changer l'orientation en cours de document.<BR>
 - Ajout de la méthode AcceptPageBreak().<BR>
+- Ajout de la méthode SetLeftMargin().<BR>
 - Possibilité d'imprimer le nombre total de pages (AliasNbPages()).<BR>
 - Choix des bords des cellules à tracer.<BR>
 - Nouveau mode pour la méthode Cell() : la position courante se déplace sous la cellule.<BR>
