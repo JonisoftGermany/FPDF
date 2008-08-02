@@ -19,7 +19,7 @@ function Header()
 	//Epaisseur du cadre (1 mm)
 	$this->SetLineWidth(1);
 	//Titre centré
-	$this->Cell($w,9,$titre,1,1,'C',1);
+	$this->Cell($w,9,$titre,1,1,'C',true);
 	//Saut de ligne
 	$this->Ln(10);
 }
@@ -43,7 +43,7 @@ function TitreChapitre($num,$lib)
 	//Couleur de fond
 	$this->SetFillColor(200,220,255);
 	//Titre
-	$this->Cell(0,6,"Chapitre $num : $lib",0,1,'L',1);
+	$this->Cell(0,6,"Chapitre $num : $lib",0,1,'L',true);
 	//Saut de ligne
 	$this->Ln(4);
 }

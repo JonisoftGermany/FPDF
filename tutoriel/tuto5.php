@@ -71,7 +71,7 @@ function FancyTable($header,$data)
 	$this->SetTextColor(0);
 	$this->SetFont('');
 	//Données
-	$fill=0;
+	$fill=false;
 	foreach($data as $row)
 	{
 		$this->Cell($w[0],6,$row[0],'LR',0,'L',$fill);

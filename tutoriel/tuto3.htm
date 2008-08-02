@@ -31,7 +31,7 @@ function </span>Header<span class="kw">()
     </span><span class="cmt">//Epaisseur du cadre (1 mm)
     </span>$<span class="kw">this-&gt;</span>SetLineWidth<span class="kw">(</span>1<span class="kw">);
     </span><span class="cmt">//Titre centré
-    </span>$<span class="kw">this-&gt;</span>Cell<span class="kw">(</span>$w<span class="kw">,</span>9<span class="kw">,</span>$titre<span class="kw">,</span>1<span class="kw">,</span>1<span class="kw">,</span><span class="str">'C'</span><span class="kw">,</span>1<span class="kw">);
+    </span>$<span class="kw">this-&gt;</span>Cell<span class="kw">(</span>$w<span class="kw">,</span>9<span class="kw">,</span>$titre<span class="kw">,</span>1<span class="kw">,</span>1<span class="kw">,</span><span class="str">'C'</span><span class="kw">,</span>true<span class="kw">);
     </span><span class="cmt">//Saut de ligne
     </span>$<span class="kw">this-&gt;</span>Ln<span class="kw">(</span>10<span class="kw">);
 }
@@ -55,7 +55,7 @@ function </span>TitreChapitre<span class="kw">(</span>$num<span class="kw">,</sp
     </span><span class="cmt">//Couleur de fond
     </span>$<span class="kw">this-&gt;</span>SetFillColor<span class="kw">(</span>200<span class="kw">,</span>220<span class="kw">,</span>255<span class="kw">);
     </span><span class="cmt">//Titre
-    </span>$<span class="kw">this-&gt;</span>Cell<span class="kw">(</span>0<span class="kw">,</span>6<span class="kw">,</span><span class="str">"Chapitre $num : $lib"</span><span class="kw">,</span>0<span class="kw">,</span>1<span class="kw">,</span><span class="str">'L'</span><span class="kw">,</span>1<span class="kw">);
+    </span>$<span class="kw">this-&gt;</span>Cell<span class="kw">(</span>0<span class="kw">,</span>6<span class="kw">,</span><span class="str">"Chapitre $num : $lib"</span><span class="kw">,</span>0<span class="kw">,</span>1<span class="kw">,</span><span class="str">'L'</span><span class="kw">,</span>true<span class="kw">);
     </span><span class="cmt">//Saut de ligne
     </span>$<span class="kw">this-&gt;</span>Ln<span class="kw">(</span>4<span class="kw">);
 }
@@ -94,33 +94,25 @@ function </span>AjouterChapitre<span class="kw">(</span>$num<span class="kw">,</
 </span>$pdf<span class="kw">-&gt;</span>Output<span class="kw">();
 </span>?&gt;</code></pre>
 </div>
-<script type="text/javascript">
-<!--
-if(document.location.href.indexOf('http:')==0)
-{
-document.write("<p class='demo'><a href='tuto3.php' target='_blank' class='demo'>[Démo]<\/a><\/p>");
-}
-//-->
-</script>
+<p class='demo'><a href='tuto3.php' target='_blank' class='demo'>[Démo]</a></p>
 La méthode <a href='../doc/getstringwidth.htm'>GetStringWidth()</a> permet de déterminer la longueur d'une chaîne dans la police
 courante, ce qui est utilisé ici pour calculer la largeur du cadre entourant le titre. Puis
 les couleurs sont définies (via <a href='../doc/setdrawcolor.htm'>SetDrawColor()</a>, <a href='../doc/setfillcolor.htm'>SetFillColor()</a> et <a href='../doc/settextcolor.htm'>SetTextColor()</a>)
 et l'épaisseur du trait positionnée à 1 mm (contre 0,2 par défaut) grâce à <a href='../doc/setlinewidth.htm'>SetLineWidth()</a>.
 Il ne reste alors plus qu'à imprimer la cellule pour le titre (le dernier paramètre à 1 indique
 que le fond doit être coloré).
-<BR>
-<BR>
+<br>
+<br>
 La méthode permettant d'imprimer les paragraphes est <a href='../doc/multicell.htm'>MultiCell()</a>. A chaque fois qu'une
 ligne arrive à l'extrémité droite de la cellule ou qu'un caractère de retour-chariot est
 rencontré, un saut est effectué et une nouvelle cellule automatiquement créée sous la
 précédente. Le texte est justifié par défaut.
-<BR>
-<BR>
-Deux propriétés du document sont positionnées : le titre (<a href='../doc/settitle.htm'>SetTitle()</a>) et l'auteur
-(<a href='../doc/setauthor.htm'>SetAuthor()</a>). Les propriétés sont visibles de deux manières différentes. En ouvrant
-directement le document avec Acrobat Reader, en allant dans le menu Fichier, Informations
-sur le document, option Générales. Seconde méthode, accessible aussi à partir du plug-in,
-cliquer sur le triangle juste au-dessus de la barre de défilement de droite et sélectionner
-Informations sur le document.
+<br>
+<br>
+Deux propriétés du document sont renseignées : le titre (<a href='../doc/settitle.htm'>SetTitle()</a>) et l'auteur
+(<a href='../doc/setauthor.htm'>SetAuthor()</a>). Les propriétés sont visibles de deux manières différentes. La première
+consiste à ouvrir le document directement avec Acrobat Reader, à aller dans le menu Fichier
+et à choisir l'option Propriétés. La seconde, disponible également à partir du plug-in,
+consiste à faire un clic droit et à choisir Propriétés du document.
 </body>
 </html>

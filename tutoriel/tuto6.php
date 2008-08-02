@@ -37,7 +37,7 @@ function WriteHTML($html)
 		else
 		{
 			//Balise
-			if($e{0}=='/')
+			if($e[0]=='/')
 				$this->CloseTag(strtoupper(substr($e,1)));
 			else
 			{
@@ -46,8 +46,10 @@ function WriteHTML($html)
 				$tag=strtoupper(array_shift($a2));
 				$attr=array();
 				foreach($a2 as $v)
-					if(ereg('^([^=]*)=["\']?([^"\']*)["\']?$',$v,$a3))
+				{
+					if(preg_match('/([^=]*)=["\']?([^"\']*)/',$v,$a3))
 						$attr[strtoupper($a3[1])]=$a3[2];
+				}
 				$this->OpenTag($tag,$attr);
 			}
 		}
@@ -57,7 +59,7 @@ function WriteHTML($html)
 function OpenTag($tag,$attr)
 {
 	//Balise ouvrante
-	if($tag=='B' or $tag=='I' or $tag=='U')
+	if($tag=='B' || $tag=='I' || $tag=='U')
 		$this->SetStyle($tag,true);
 	if($tag=='A')
 		$this->HREF=$attr['HREF'];
@@ -68,7 +70,7 @@ function OpenTag($tag,$attr)
 function CloseTag($tag)
 {
 	//Balise fermante
-	if($tag=='B' or $tag=='I' or $tag=='U')
+	if($tag=='B' || $tag=='I' || $tag=='U')
 		$this->SetStyle($tag,false);
 	if($tag=='A')
 		$this->HREF='';
@@ -80,8 +82,10 @@ function SetStyle($tag,$enable)
 	$this->$tag+=($enable ? 1 : -1);
 	$style='';
 	foreach(array('B','I','U') as $s)
+	{
 		if($this->$s>0)
 			$style.=$s;
+	}
 	$this->SetFont('',$style);
 }
 
@@ -96,11 +100,10 @@ function PutLink($URL,$txt)
 }
 }
 
-$html='Vous pouvez maintenant imprimer facilement du texte mélangeant
-différents styles : <B>gras</B>, <I>italique</I>, <U>souligné</U>, ou
-<B><I><U>tous à la fois</U></I></B> !<BR>Vous pouvez aussi insérer des
-liens sous forme textuelle, comme <A HREF="http://www.fpdf.org">
-www.fpdf.org</A>, ou bien sous forme d\'image : cliquez sur le logo.';
+$html='Vous pouvez maintenant imprimer facilement du texte mélangeant différents styles : <b>gras</b>,
+<i>italique</i>, <u>souligné</u>, ou <b><i><u>tous à la fois</u></i></b> !<br><br>Vous pouvez aussi
+insérer des liens sous forme textuelle, comme <a href="http://www.fpdf.org">www.fpdf.org</a>, ou bien
+sous forme d\'image : cliquez sur le logo.';
 
 $pdf=new PDF();
 //Première page
@@ -114,7 +117,7 @@ $pdf->SetFont('');
 //Seconde page
 $pdf->AddPage();
 $pdf->SetLink($link);
-$pdf->Image('logo.png',10,10,30,0,'','http://www.fpdf.org');
+$pdf->Image('logo.png',10,12,30,0,'','http://www.fpdf.org');
 $pdf->SetLeftMargin(45);
 $pdf->SetFontSize(14);
 $pdf->WriteHTML($html);

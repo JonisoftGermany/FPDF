@@ -51,34 +51,27 @@ for(</span>$i<span class="kw">=</span>1<span class="kw">;</span>$i<span class="k
 </span>$pdf<span class="kw">-&gt;</span>Output<span class="kw">();
 </span>?&gt;</code></pre>
 </div>
-<script type="text/javascript">
-<!--
-if(document.location.href.indexOf('http:')==0)
-{
-document.write("<p class='demo'><a href='tuto2.php' target='_blank' class='demo'>[Démo]<\/a><\/p>");
-}
-//-->
-</script>
+<p class='demo'><a href='tuto2.php' target='_blank' class='demo'>[Démo]</a></p>
 Cet exemple exploite les méthodes <a href='../doc/header.htm'>Header()</a> et <a href='../doc/footer.htm'>Footer()</a> pour traiter les en-têtes et
 pieds de page. Elles sont appelées automatiquement. Leur implémentation dans la classe FPDF
 est vide, aussi doit-on dériver la classe et les redéfinir.
-<BR>
-<BR>
+<br>
+<br>
 Le logo est imprimé grâce à la méthode <a href='../doc/image.htm'>Image()</a> en précisant le coin supérieur gauche et
 la largeur. La hauteur est calculée automatiquement afin de respecter la proportion de l'image.
-<BR>
-<BR>
+<br>
+<br>
 Pour imprimer le numéro de page, une valeur nulle est passée comme largeur de cellule. Cela
 signifie que cette dernière doit s'étendre jusqu'à la marge droite de la page ; c'est pratique
 pour centrer du texte. Le numéro de page courant est retourné par la méthode <a href='../doc/pageno.htm'>PageNo()</a> ; le
-nombre total de pages s'obtient quant à lui grâce à la valeur spéciale <TT>{nb}</TT> qui sera
+nombre total de pages s'obtient quant à lui grâce à la valeur spéciale <code>{nb}</code> qui sera
 substituée lorsque le document sera terminé (à condition d'avoir au préalable appelé
 <a href='../doc/aliasnbpages.htm'>AliasNbPages()</a>).
-<BR>
+<br>
 A noter l'utilisation de la méthode <a href='../doc/sety.htm'>SetY()</a> qui permet de se
 positionner de manière absolue dans la page, à partir du haut ou du bas.
-<BR>
-<BR>
+<br>
+<br>
 Une autre fonctionnalité intéressante est ici utilisée : le saut de page automatique. Lorsqu'une cellule
 descend trop bas (à 2 centimètres du bas de la page par défaut), un saut de page est effectué
 et la police est restaurée. Bien que l'en-tête et le pied de page spécifient leur propre
