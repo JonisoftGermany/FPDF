@@ -24,16 +24,16 @@ L'alias. Valeur par défaut : <code>{nb}</code>.
 {
 function Footer()
 {
-    //Positionnement à 1,5 cm du bas
+    // Positionnement à 1,5 cm du bas
     $this-&gt;SetY(-15);
-    //Police Arial italique 8
+    // Police Arial italique 8
     $this-&gt;SetFont('Arial','I',8);
-    //Numéro et nombre de pages
+    // Numéro et nombre de pages
     $this-&gt;Cell(0,10,'Page '.$this-&gt;PageNo().'/{nb}',0,0,'C');
 }
 }
 
-$pdf=new PDF();
+$pdf = new PDF();
 $pdf-&gt;AliasNbPages();</code></pre>
 </div>
 <h2>Voir</h2>

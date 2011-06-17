@@ -12,7 +12,7 @@ Voici pour commencer l'exemple classique :
 <pre><code>&lt;?php
 <span class="kw">require(</span><span class="str">'fpdf.php'</span><span class="kw">);
 
-</span>$pdf<span class="kw">=new </span>FPDF<span class="kw">();
+</span>$pdf <span class="kw">= new </span>FPDF<span class="kw">();
 </span>$pdf<span class="kw">-&gt;</span>AddPage<span class="kw">();
 </span>$pdf<span class="kw">-&gt;</span>SetFont<span class="kw">(</span><span class="str">'Arial'</span><span class="kw">,</span><span class="str">'B'</span><span class="kw">,</span>16<span class="kw">);
 </span>$pdf<span class="kw">-&gt;</span>Cell<span class="kw">(</span>40<span class="kw">,</span>10<span class="kw">,</span><span class="str">'Hello World !'</span><span class="kw">);
@@ -24,7 +24,7 @@ Après avoir inclus la librairie, un object FPDF est créé.
 Le constructeur <a href='../doc/fpdf.htm'>FPDF()</a> est utilisé ici avec les valeurs par défaut : les pages sont en
 portrait A4 et l'unité de mesure est le millimètre. On aurait pu l'indiquer explicitement par :
 <div class="source">
-<pre><code>$pdf<span class="kw">=new </span>FPDF<span class="kw">(</span><span class="str">'P'</span><span class="kw">,</span><span class="str">'mm'</span><span class="kw">,</span><span class="str">'A4'</span><span class="kw">);
+<pre><code>$pdf <span class="kw">= new </span>FPDF<span class="kw">(</span><span class="str">'P'</span><span class="kw">,</span><span class="str">'mm'</span><span class="kw">,</span><span class="str">'A4'</span><span class="kw">);
 </span></code></pre>
 </div>
 Il est possible de passer en paysage (<code>L</code>), d'utiliser d'autres formats de page (comme
