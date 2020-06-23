@@ -1,6 +1,8 @@
 <?php
-// Génération du fichier de définition de police pour le tutoriel 7
+// Generation du fichier de definition de police pour le tutoriel 7
+
 require('../makefont/makefont.php');
 
-MakeFont('calligra.ttf','cp1252');
+fpdf_make_font('calligra.ttf', 'cp1252');
+
 ?>
