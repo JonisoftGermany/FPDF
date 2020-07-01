@@ -407,10 +407,10 @@ class FPDF
 	public function close() : void
 	{
 		// Terminate document
-		if ($this->state == 3) {
+		if ($this->state === 3) {
 			return;
 		}
-		if ($this->page == 0) {
+		if ($this->page === 0) {
 			$this->AddPage();
 		}
 
@@ -420,7 +420,7 @@ class FPDF
 		$this->in_footer = false;
 
 		// Close page
-		$this->endpage();
+		$this->endPage();
 
 		// Close document
 		$this->enddoc();
@@ -446,11 +446,11 @@ class FPDF
 			$this->footer();
 			$this->in_footer = false;
 			// Close page
-			$this->endpage();
+			$this->endPage();
 		}
 
 		// Start new page
-		$this->beginpage($orientation, $size, $rotation);
+		$this->beginPage($orientation, $size, $rotation);
 
 		// Set line cap style to square
 		$this->out('2 J');
@@ -681,6 +681,7 @@ class FPDF
 				throw new FPDFException('Undefined font: ' . $family . ' ' . $style);
 			}
 		}
+
 		// Select it
 		$this->font_family = $family;
 		$this->font_style = $style;
@@ -1285,7 +1286,7 @@ class FPDF
 		}
 	}
 
-	protected function beginpage($orientation, $size, int $rotation = 0) : void
+	protected function beginPage($orientation, $size, int $rotation = 0) : void
 	{
 		$this->page++;
 		$this->pages[$this->page] = '';
@@ -1334,7 +1335,7 @@ class FPDF
 		$this->page_info[$this->page]['rotation'] = $rotation;
 	}
 
-	protected function endpage() : void
+	protected function endPage() : void
 	{
 		$this->state = 1;
 	}
