@@ -211,8 +211,20 @@ class FPDF
 	/* @var string Layout display mode */
 	protected $layout_mode;
 
-	/* @var array Document properties */
-	protected $metadata;
+	/** @var string|null Author of document (metadata) */
+	private $document_author;
+
+	/** @var string|null Creator of document (metadata) */
+	private $document_creator;
+
+	/** @var string|null Keywords describing the document (metadata) */
+	private $document_keywords;
+
+	/** @var string|null Subject of document (metadata) */
+	private $document_subject;
+
+	/** @var string|null Title of document (metadata) */
+	private $document_title;
 
 	/* @var string PDF version number */
 	protected $PDFVersion = '1.3';
@@ -422,8 +434,7 @@ class FPDF
 	 */
 	public function setTitle(string $title, bool $isUTF8 = false) : void
 	{
-		// Title of document
-		$this->metadata['Title'] = $isUTF8 ? $title : utf8_encode($title);
+		$this->document_title = $isUTF8 ? $title : utf8_encode($title);
 	}
 
 	/**
@@ -434,8 +445,7 @@ class FPDF
 	 */
 	public function setAuthor(string $author, bool $isUTF8 = false) : void
 	{
-		// Author of document
-		$this->metadata['Author'] = $isUTF8 ? $author : utf8_encode($author);
+		$this->document_author = $isUTF8 ? $author : utf8_encode($author);
 	}
 
 	/**
@@ -446,8 +456,7 @@ class FPDF
 	 */
 	public function setSubject(string $subject, bool $isUTF8 = false) : void
 	{
-		// Subject of document
-		$this->metadata['Subject'] = $isUTF8 ? $subject : utf8_encode($subject);
+		$this->document_subject = $isUTF8 ? $subject : utf8_encode($subject);
 	}
 
 	/**
@@ -458,8 +467,7 @@ class FPDF
 	 */
 	public function setKeywords(string $keywords, bool $isUTF8 = false) : void
 	{
-		// Keywords of document
-		$this->metadata['Keywords'] = $isUTF8 ? $keywords : utf8_encode($keywords);
+		$this->document_keywords = $isUTF8 ? $keywords : utf8_encode($keywords);
 	}
 
 	/**
@@ -471,8 +479,7 @@ class FPDF
 	 */
 	public function setCreator(string $creator, bool $isUTF8 = false) : void
 	{
-		// Creator of document
-		$this->metadata['Creator'] = $isUTF8 ? $creator : utf8_encode($creator);
+		$this->document_creator = $isUTF8 ? $creator : utf8_encode($creator);
 	}
 
 	/**
@@ -1634,8 +1641,9 @@ class FPDF
 				break;
 			case 'F':
 				// Save to local file
-				if (!file_put_contents($name, $this->buffer))
+				if (!file_put_contents($name, $this->buffer)) {
 					throw new FPDFException('Unable to create output file: ' . $name);
+				}
 				break;
 			case 'S':
 				// Return as a string
@@ -2073,11 +2081,11 @@ class FPDF
 		return $info;
 	}
 
-	protected function out($s) : void
+	protected function out(string $s) : void
 	{
 		// Add a line to the document
 		if ($this->state === 2) {
-			$this->pages[$this->page] .= $s . "\n";
+			$this->pages[$this->page] .= $s . PHP_EOL;
 		} elseif ($this->state === 1) {
 			$this->put($s);
 		} elseif ($this->state === 0) {
@@ -2087,7 +2095,7 @@ class FPDF
 		}
 	}
 
-	protected function put($s) : void
+	protected function put(string $s) : void
 	{
 		$this->buffer .= $s . "\n";
 	}
@@ -2487,12 +2495,25 @@ class FPDF
 		$this->put('endobj');
 	}
 
-	protected function putinfo() : void
+	private function bufferMetadata() : void
 	{
-		$this->metadata['Producer'] = 'FPDF ' . self::VERSION;
-		$this->metadata['CreationDate'] = 'D:' . @date('YmdHis');
-		foreach ($this->metadata as $key => $value) {
-			$this->put('/' . $key . ' ' . $this->textstring($value));
+		$this->buffer .= '/Producer ' . $this->textstring('FPDF ' . self::VERSION) . PHP_EOL;
+		$this->buffer .= '/CreationDate ' . $this->textstring(date('YmdHis')) . PHP_EOL;
+
+		if ($this->document_author !== null) {
+			$this->buffer .= '/Author ' . $this->textstring($this->document_author) . PHP_EOL;
+		}
+		if ($this->document_creator !== null) {
+			$this->buffer .= '/Creator ' . $this->textstring($this->document_creator) . PHP_EOL;
+		}
+		if ($this->document_keywords !== null) {
+			$this->buffer .= '/Keywords ' . $this->textstring($this->document_keywords) . PHP_EOL;
+		}
+		if ($this->document_subject !== null) {
+			$this->buffer .= '/Subject ' . $this->textstring($this->document_subject) . PHP_EOL;
+		}
+		if ($this->document_title !== null) {
+			$this->buffer .= '/Title ' . $this->textstring($this->document_title) . PHP_EOL;
 		}
 	}
 
@@ -2542,7 +2563,7 @@ class FPDF
 		// Info
 		$this->newobj();
 		$this->put('<<');
-		$this->putinfo();
+		$this->bufferMetadata();
 		$this->put('>>');
 		$this->put('endobj');
 
