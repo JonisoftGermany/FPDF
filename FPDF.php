@@ -97,7 +97,8 @@ class FPDF
 	/* @var array Page-related data */
 	protected $page_info = array();
 
-	/* Dimensions of current page in points */
+	/* @var float $wPt Dimensions of current page in points */
+	/* @var float $hPt Dimensions of current page in points */
 	protected $wPt, $hPt;
 
 	/* @var float $w Dimensions of current page in user unit */
@@ -116,77 +117,77 @@ class FPDF
 	/*  @var float Page break margin */
 	protected $break_margin;
 
-	/* Cell margin */
+	/* @var float Cell margin */
 	protected $cMargin;
 
 	/* @var float $x Current position in user unit */
 	/* @var float $y Current position in user unit */
 	protected $x, $y;
 
-	/* Height of last printed cell */
+	/* @var float Height of last printed cell */
 	protected $lasth = 0;
 
 	/* @var float Line width in user unit */
 	protected $line_width;
 
-	/* Path containing fonts */
+	/* @var string Path containing fonts */
 	protected $fontpath;
 
-	/* Array of used fonts */
+	/* @var array Array of used fonts */
 	protected $fonts = array();
 
-	/* Array of font files */
+	/* @var array Array of font files */
 	protected $font_files = array();
 
-	/* Array of encodings */
+	/* @var array Array of encodings */
 	protected $encodings = array();
 
-	/* Array of ToUnicode CMaps */
+	/* @var array Array of ToUnicode CMaps */
 	protected $cmaps = array();
 
-	/* Current font family */
+	/* @var string Current font family */
 	protected $font_family = '';
 
-	/* Current font style */
+	/* @var string Current font style */
 	protected $font_style = '';
 
-	/* Underlining flag */
+	/* @var bool Underlining flag */
 	protected $underline = false;
 
-	/* Current font info */
-	protected $current_font; // array?
+	/* @var array Current font info */
+	protected $current_font;
 
 	/* @var float Current font size in points */
 	protected $font_size_pt = 12;
 
-	/* Current font size in user unit */
+	/* @var float Current font size in user unit */
 	protected $font_size;
 
-	/* Commands for drawing color */
+	/* @var string Commands for drawing color */
 	protected $draw_color = '0 G';
 
-	/* Commands for filling color */
+	/* @var string Commands for filling color */
 	protected $fill_color = '0 g';
 
-	/* Commands for text color */
+	/* @var string Commands for text color */
 	protected $text_color = '0 g';
 
-	/* Indicates whether fill and text colors are different */
+	/* @var bool Indicates whether fill and text colors are different */
 	protected $color_flag = false;
 
-	/* Indicates whether alpha channel is used */
+	/* @var bool Indicates whether alpha channel is used */
 	protected $with_alpha = false;
 
-	/* Word spacing */
+	/* @var float Word spacing */
 	protected $ws = 0;
 
-	/* Array of used images */
+	/* @var array Array of used images */
 	protected $images = array();
 
-	/* Array of links in pages */
+	/* @var array Array of links in pages */
 	protected $page_links = array();
 
-	/* Array of internal links */
+	/* @var array Array of internal links */
 	protected $links;
 
 	/* @var bool Automatic page breaking */
@@ -195,10 +196,10 @@ class FPDF
 	/* @var float Threshold used to trigger page breaks */
 	protected $page_break_trigger;
 
-	/* Flag set when processing header */
+	/* @var bool Flag set when processing header */
 	protected $in_header = false;
 
-	/* Flag set when processing footer */
+	/* @var bool Flag set when processing footer */
 	protected $in_footer = false;
 
 	/* @var string Alias for total number of pages */
@@ -210,7 +211,7 @@ class FPDF
 	/* @var string Layout display mode */
 	protected $layout_mode;
 
-	/* Document properties */
+	/* @var array Document properties */
 	protected $metadata;
 
 	/* @var string PDF version number */
@@ -1692,7 +1693,7 @@ class FPDF
 		}
 	}
 
-	protected function beginPage($orientation, $size, int $rotation = 0) : void
+	protected function beginPage(string $orientation, $size, int $rotation = 0) : void
 	{
 		$this->page++;
 		$this->pages[$this->page] = '';
@@ -1702,7 +1703,7 @@ class FPDF
 		$this->font_family = '';
 
 		// Check page size and orientation
-		if ($orientation == '') {
+		if ($orientation === '') {
 			$orientation = $this->def_orientation;
 		} else {
 			$orientation = strtoupper($orientation[0]);
@@ -1714,7 +1715,7 @@ class FPDF
 			$size = $this->getPageSize($size);
 		}
 
-		if ($orientation != $this->cur_orientation || $size[0] != $this->cur_page_size[0] || $size[1] != $this->cur_page_size[1]) {
+		if ($orientation !== $this->cur_orientation || $size[0] !== $this->cur_page_size[0] || $size[1] !== $this->cur_page_size[1]) {
 			// New size or orientation
 			if ($orientation === 'P') {
 				$this->w = $size[0];
@@ -1729,12 +1730,12 @@ class FPDF
 			$this->cur_orientation = $orientation;
 			$this->cur_page_size = $size;
 		}
-		if ($orientation != $this->def_orientation || $size[0] != $this->def_page_size[0] || $size[1] != $this->def_page_size[1]) {
+		if ($orientation !== $this->def_orientation || $size[0] !== $this->def_page_size[0] || $size[1] !== $this->def_page_size[1]) {
 			$this->page_info[$this->page]['size'] = array($this->wPt, $this->hPt);
 		}
 
 		// Page rotation
-		if ($rotation % 90 != 0) {
+		if ($rotation % 90 !== 0) {
 			throw new \InvalidArgumentException('Incorrect rotation value: ' . $rotation . '. Only integers divided by 90 are allowed here');
 		}
 		$this->cur_rotation = $rotation;
@@ -1746,19 +1747,19 @@ class FPDF
 		$this->state = 1;
 	}
 
-	protected function isAscii($s) : bool
+	protected function isAscii(string $str) : bool
 	{
 		// Test if string is ASCII
-		$nb = strlen($s);
+		$nb = strlen($str);
 		for ($i = 0; $i < $nb; $i++) {
-			if (ord($s[$i]) > 127) {
+			if (ord($str[$i]) > 127) {
 				return false;
 			}
 		}
 		return true;
 	}
 
-	protected function httpencode($param, $value, $isUTF8) : string
+	protected function httpencode(string $param, string $value, bool $isUTF8) : string
 	{
 		// Encode HTTP header field parameter
 		if ($this->isAscii($value)) {
