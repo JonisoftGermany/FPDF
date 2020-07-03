@@ -229,9 +229,6 @@ class FPDF
 	/* @var string PDF version number */
 	protected $PDFVersion = '1.3';
 
-	/*******************************************************************************
-	 *                               Public methods                                 *
-	 *******************************************************************************/
 
 	/**
 	 * FPDF constructor.
@@ -432,7 +429,7 @@ class FPDF
 	 * @param string $title The title
 	 * @param bool $isUTF8 Indicates if the string is encoded in ISO-8859-1 (false) or UTF-8 (true). Default value: false.
 	 */
-	public function setTitle(string $title, bool $isUTF8 = false) : void
+	final public function setTitle(string $title, bool $isUTF8 = false) : void
 	{
 		$this->document_title = $isUTF8 ? $title : utf8_encode($title);
 	}
@@ -443,7 +440,7 @@ class FPDF
 	 * @param string $author The name of the author
 	 * @param bool $isUTF8 Indicates if the string is encoded in ISO-8859-1 (false) or UTF-8 (true). Default value: false.
 	 */
-	public function setAuthor(string $author, bool $isUTF8 = false) : void
+	final public function setAuthor(string $author, bool $isUTF8 = false) : void
 	{
 		$this->document_author = $isUTF8 ? $author : utf8_encode($author);
 	}
@@ -454,7 +451,7 @@ class FPDF
 	 * @param string $subject The subject
 	 * @param bool $isUTF8 Indicates if the string is encoded in ISO-8859-1 (false) or UTF-8 (true). Default value: false.
 	 */
-	public function setSubject(string $subject, bool $isUTF8 = false) : void
+	final public function setSubject(string $subject, bool $isUTF8 = false) : void
 	{
 		$this->document_subject = $isUTF8 ? $subject : utf8_encode($subject);
 	}
@@ -465,7 +462,7 @@ class FPDF
 	 * @param string $keywords The list of keywords
 	 * @param bool $isUTF8 Indicates if the string is encoded in ISO-8859-1 (false) or UTF-8 (true). Default value: false.
 	 */
-	public function setKeywords(string $keywords, bool $isUTF8 = false) : void
+	final public function setKeywords(string $keywords, bool $isUTF8 = false) : void
 	{
 		$this->document_keywords = $isUTF8 ? $keywords : utf8_encode($keywords);
 	}
@@ -477,7 +474,7 @@ class FPDF
 	 * @param string $creator The name of the creator
 	 * @param bool $isUTF8 Indicates if the string is encoded in ISO-8859-1 (false) or UTF-8 (true). Default value: false.
 	 */
-	public function setCreator(string $creator, bool $isUTF8 = false) : void
+	final public function setCreator(string $creator, bool $isUTF8 = false) : void
 	{
 		$this->document_creator = $isUTF8 ? $creator : utf8_encode($creator);
 	}
@@ -517,7 +514,7 @@ class FPDF
 		$this->endPage();
 
 		// Close document
-		$this->enddoc();
+		$this->endDoc();
 	}
 
 	/**
@@ -1320,7 +1317,7 @@ class FPDF
 				$sep = -1;
 				$j = $i;
 				$l = 0;
-				if ($nl == 1) {
+				if ($nl === 1) {
 					$this->x = $this->left_margin;
 					$w = $this->w - $this->right_margin - $this->x;
 					$wmax = ($w - 2 * $this->cMargin) * 1000 / $this->font_size;
@@ -1328,13 +1325,13 @@ class FPDF
 				$nl++;
 				continue;
 			}
-			if ($c == ' ') {
+			if ($c === ' ') {
 				$sep = $i;
 			}
 			$l += $cw[$c];
 			if ($l > $wmax) {
 				// Automatic line break
-				if ($sep == -1) {
+				if ($sep === -1) {
 					if ($this->x > $this->left_margin) {
 						// Move to next line
 						$this->x = $this->left_margin;
@@ -2081,13 +2078,13 @@ class FPDF
 		return $info;
 	}
 
-	protected function out(string $s) : void
+	final protected function out(string $s) : void
 	{
 		// Add a line to the document
 		if ($this->state === 2) {
 			$this->pages[$this->page] .= $s . PHP_EOL;
 		} elseif ($this->state === 1) {
-			$this->put($s);
+			$this->buffer .= $s . PHP_EOL;
 		} elseif ($this->state === 0) {
 			throw new FPDFException('No page has been added yet');
 		} elseif ($this->state === 3) {
@@ -2095,35 +2092,36 @@ class FPDF
 		}
 	}
 
-	protected function put(string $s) : void
+	final protected function bufferOutput(string $s) : void
 	{
-		$this->buffer .= $s . "\n";
+		$this->buffer .= $s . PHP_EOL;
 	}
 
-	protected function getoffset() : int
+	final protected function bufferSize() : int
 	{
 		return strlen($this->buffer);
 	}
 
-	protected function newobj($n = null) : void
+	final protected function bufferPreparation(int $n = null) : void
 	{
 		// Begin a new object
 		if ($n === null) {
 			$n = ++$this->n;
 		}
 
-		$this->offsets[$n] = $this->getoffset();
-		$this->put($n . ' 0 obj');
+		$this->offsets[$n] = $this->bufferSize();
+		$this->bufferOutput($n . ' 0 obj');
 	}
 
-	protected function putstream($data) : void
+	private function bufferStream(string $data) : void
 	{
-		$this->put('stream');
-		$this->put($data);
-		$this->put('endstream');
+		$this->buffer .=
+				'stream' . PHP_EOL
+				. $data . PHP_EOL
+				. 'endstream' . PHP_EOL;
 	}
 
-	protected function putstreamobject($data) : void
+	private function bufferStreamObject(string $data) : void
 	{
 		if ($this->compress) {
 			$entries = '/Filter /FlateDecode ';
@@ -2132,26 +2130,26 @@ class FPDF
 			$entries = '';
 		}
 		$entries .= '/Length ' . strlen($data);
-		$this->newobj();
-		$this->put('<<' . $entries . '>>');
-		$this->putstream($data);
-		$this->put('endobj');
+		$this->bufferPreparation();
+		$this->bufferOutput('<<' . $entries . '>>');
+		$this->bufferStream($data);
+		$this->bufferOutput('endobj');
 	}
 
-	protected function putpage($n) : void
+	private function bufferPage(int $n) : void
 	{
-		$this->newobj();
-		$this->put('<</Type /Page');
-		$this->put('/Parent 1 0 R');
+		$this->bufferPreparation();
+		$this->bufferOutput('<</Type /Page');
+		$this->bufferOutput('/Parent 1 0 R');
 
 		if (isset($this->page_info[$n]['size'])) {
-			$this->put(sprintf('/MediaBox [0 0 %.2F %.2F]', $this->page_info[$n]['size'][0], $this->page_info[$n]['size'][1]));
+			$this->bufferOutput(sprintf('/MediaBox [0 0 %.2F %.2F]', $this->page_info[$n]['size'][0], $this->page_info[$n]['size'][1]));
 		}
 		if (isset($this->page_info[$n]['rotation'])) {
-			$this->put('/Rotate ' . $this->page_info[$n]['rotation']);
+			$this->bufferOutput('/Rotate ' . $this->page_info[$n]['rotation']);
 		}
 
-		$this->put('/Resources 2 0 R');
+		$this->bufferOutput('/Resources 2 0 R');
 
 		if (isset($this->page_links[$n])) {
 			// Links
@@ -2166,63 +2164,63 @@ class FPDF
 					if (isset($this->page_info[$l[0]]['size'])) {
 						$h = $this->page_info[$l[0]]['size'][1];
 					} else {
-						$h = ($this->def_orientation == 'P') ? $this->def_page_size[1] * $this->scale_factor : $this->def_page_size[0] * $this->scale_factor;
+						$h = ($this->def_orientation === 'P') ? $this->def_page_size[1] * $this->scale_factor : $this->def_page_size[0] * $this->scale_factor;
 					}
 					$annots .= sprintf('/Dest [%d 0 R /XYZ 0 %.2F null]>>', $this->page_info[$l[0]]['n'], $h - $l[1] * $this->scale_factor);
 				}
 			}
-			$this->put($annots . ']');
+			$this->bufferOutput($annots . ']');
 		}
 
 		if ($this->with_alpha) {
-			$this->put('/Group <</Type /Group /S /Transparency /CS /DeviceRGB>>');
+			$this->bufferOutput('/Group <</Type /Group /S /Transparency /CS /DeviceRGB>>');
 		}
-		$this->put('/Contents ' . ($this->n + 1) . ' 0 R>>');
-		$this->put('endobj');
+		$this->bufferOutput('/Contents ' . ($this->n + 1) . ' 0 R>>');
+		$this->bufferOutput('endobj');
 
 		// Page content
 		if (!empty($this->alias_NbPages)) {
 			$this->pages[$n] = str_replace($this->alias_NbPages, $this->page, $this->pages[$n]);
 		}
-		$this->putstreamobject($this->pages[$n]);
+		$this->bufferStreamObject($this->pages[$n]);
 	}
 
-	protected function putpages() : void
+	private function bufferPages() : void
 	{
 		$nb = $this->page;
 		for ($n = 1; $n <= $nb; $n++) {
 			$this->page_info[$n]['n'] = $this->n + 1 + 2 * ($n - 1);
 		}
 		for ($n = 1; $n <= $nb; $n++) {
-			$this->putpage($n);
+			$this->bufferPage($n);
 		}
 
 		// Pages root
-		$this->newobj(1);
-		$this->put('<</Type /Pages');
+		$this->bufferPreparation(1);
+		$this->bufferOutput('<</Type /Pages');
 		$kids = '/Kids [';
 		for ($n = 1; $n <= $nb; $n++) {
 			$kids .= $this->page_info[$n]['n'] . ' 0 R ';
 		}
-		$this->put($kids . ']');
-		$this->put('/Count ' . $nb);
-		if ($this->def_orientation == 'P') {
+		$this->bufferOutput($kids . ']');
+		$this->bufferOutput('/Count ' . $nb);
+		if ($this->def_orientation === 'P') {
 			$w = $this->def_page_size[0];
 			$h = $this->def_page_size[1];
 		} else {
 			$w = $this->def_page_size[1];
 			$h = $this->def_page_size[0];
 		}
-		$this->put(sprintf('/MediaBox [0 0 %.2F %.2F]', $w * $this->scale_factor, $h * $this->scale_factor));
-		$this->put('>>');
-		$this->put('endobj');
+		$this->bufferOutput(sprintf('/MediaBox [0 0 %.2F %.2F]', $w * $this->scale_factor, $h * $this->scale_factor));
+		$this->bufferOutput('>>');
+		$this->bufferOutput('endobj');
 	}
 
-	protected function putfonts() : void
+	private function bufferFonts() : void
 	{
 		foreach ($this->font_files as $file => $info) {
 			// Font file embedding
-			$this->newobj();
+			$this->bufferPreparation();
 			$this->font_files[$file]['n'] = $this->n;
 			$font = file_get_contents($this->fontpath . $file, true);
 			if (!$font) {
@@ -2232,26 +2230,26 @@ class FPDF
 			if (!$compressed && isset($info['length2'])) {
 				$font = substr($font, 6, $info['length1']) . substr($font, 6 + $info['length1'] + 6, $info['length2']);
 			}
-			$this->put('<</Length ' . strlen($font));
+			$this->bufferOutput('<</Length ' . strlen($font));
 			if ($compressed) {
-				$this->put('/Filter /FlateDecode');
+				$this->bufferOutput('/Filter /FlateDecode');
 			}
-			$this->put('/Length1 ' . $info['length1']);
+			$this->bufferOutput('/Length1 ' . $info['length1']);
 			if (isset($info['length2'])) {
-				$this->put('/Length2 ' . $info['length2'] . ' /Length3 0');
+				$this->bufferOutput('/Length2 ' . $info['length2'] . ' /Length3 0');
 			}
-			$this->put('>>');
-			$this->putstream($font);
-			$this->put('endobj');
+			$this->bufferOutput('>>');
+			$this->bufferStream($font);
+			$this->bufferOutput('endobj');
 		}
 
-		foreach ($this->fonts as $k => $font) {
+		foreach ($this->fonts as $font_key => $font) {
 			// Encoding
 			if (isset($font['diff'])) {
 				if (!isset($this->encodings[$font['enc']])) {
-					$this->newobj();
-					$this->put('<</Type /Encoding /BaseEncoding /WinAnsiEncoding /Differences [' . $font['diff'] . ']>>');
-					$this->put('endobj');
+					$this->bufferPreparation();
+					$this->bufferOutput('<</Type /Encoding /BaseEncoding /WinAnsiEncoding /Differences [' . $font['diff'] . ']>>');
+					$this->bufferOutput('endobj');
 					$this->encodings[$font['enc']] = $this->n;
 				}
 			}
@@ -2264,13 +2262,13 @@ class FPDF
 				}
 
 				if (!isset($this->cmaps[$cmapkey])) {
-					$cmap = $this->tounicodecmap($font['uv']);
-					$this->putstreamobject($cmap);
+					$cmap = $this->toUnicodecMap($font['uv']);
+					$this->bufferStreamObject($cmap);
 					$this->cmaps[$cmapkey] = $this->n;
 				}
 			}
 			// Font object
-			$this->fonts[$k]['n'] = $this->n + 1;
+			$this->fonts[$font_key]['n'] = $this->n + 1;
 			$type = $font['type'];
 			$name = $font['name'];
 			if ($font['subsetted']) {
@@ -2279,62 +2277,62 @@ class FPDF
 
 			if ($type === 'Core') {
 				// Core font
-				$this->newobj();
-				$this->put('<</Type /Font');
-				$this->put('/BaseFont /' . $name);
-				$this->put('/Subtype /Type1');
+				$this->bufferPreparation();
+				$this->bufferOutput('<</Type /Font');
+				$this->bufferOutput('/BaseFont /' . $name);
+				$this->bufferOutput('/Subtype /Type1');
 				if ($name !== 'Symbol' && $name !== 'ZapfDingbats') {
-					$this->put('/Encoding /WinAnsiEncoding');
+					$this->bufferOutput('/Encoding /WinAnsiEncoding');
 				}
 				if (isset($font['uv'])) {
-					$this->put('/ToUnicode ' . $this->cmaps[$cmapkey] . ' 0 R');
+					$this->bufferOutput('/ToUnicode ' . $this->cmaps[$cmapkey] . ' 0 R');
 				}
-				$this->put('>>');
-				$this->put('endobj');
+				$this->bufferOutput('>>');
+				$this->bufferOutput('endobj');
 			} elseif ($type === 'Type1' || $type === 'TrueType') {
 				// Additional Type1 or TrueType/OpenType font
-				$this->newobj();
-				$this->put('<</Type /Font');
-				$this->put('/BaseFont /' . $name);
-				$this->put('/Subtype /' . $type);
-				$this->put('/FirstChar 32 /LastChar 255');
-				$this->put('/Widths ' . ($this->n + 1) . ' 0 R');
-				$this->put('/FontDescriptor ' . ($this->n + 2) . ' 0 R');
+				$this->bufferPreparation();
+				$this->bufferOutput('<</Type /Font');
+				$this->bufferOutput('/BaseFont /' . $name);
+				$this->bufferOutput('/Subtype /' . $type);
+				$this->bufferOutput('/FirstChar 32 /LastChar 255');
+				$this->bufferOutput('/Widths ' . ($this->n + 1) . ' 0 R');
+				$this->bufferOutput('/FontDescriptor ' . ($this->n + 2) . ' 0 R');
 
 				if (isset($font['diff'])) {
-					$this->put('/Encoding ' . $this->encodings[$font['enc']] . ' 0 R');
+					$this->bufferOutput('/Encoding ' . $this->encodings[$font['enc']] . ' 0 R');
 				} else {
-					$this->put('/Encoding /WinAnsiEncoding');
+					$this->bufferOutput('/Encoding /WinAnsiEncoding');
 				}
 
 				if (isset($font['uv'])) {
-					$this->put('/ToUnicode ' . $this->cmaps[$cmapkey] . ' 0 R');
+					$this->bufferOutput('/ToUnicode ' . $this->cmaps[$cmapkey] . ' 0 R');
 				}
-				$this->put('>>');
-				$this->put('endobj');
+				$this->bufferOutput('>>');
+				$this->bufferOutput('endobj');
 
 				// Widths
-				$this->newobj();
+				$this->bufferPreparation();
 				$cw = &$font['cw'];
 				$s = '[';
 				for ($i = 32; $i <= 255; $i++) {
 					$s .= $cw[chr($i)] . ' ';
 				}
-				$this->put($s . ']');
-				$this->put('endobj');
+				$this->bufferOutput($s . ']');
+				$this->bufferOutput('endobj');
 				// Descriptor
-				$this->newobj();
+				$this->bufferPreparation();
 				$s = '<</Type /FontDescriptor /FontName /' . $name;
 
-				foreach ($font['desc'] as $k => $v) {
-					$s .= ' /' . $k . ' ' . $v;
+				foreach ($font['desc'] as $desc_key => $desc_val) {
+					$s .= ' /' . $desc_key . ' ' . $desc_val;
 				}
 
 				if (!empty($font['file'])) {
-					$s .= ' /FontFile' . ($type == 'Type1' ? '' : '2') . ' ' . $this->font_files[$font['file']]['n'] . ' 0 R';
+					$s .= ' /FontFile' . ($type === 'Type1' ? '' : '2') . ' ' . $this->font_files[$font['file']]['n'] . ' 0 R';
 				}
-				$this->put($s . '>>');
-				$this->put('endobj');
+				$this->bufferOutput($s . '>>');
+				$this->bufferOutput('endobj');
 			} else {
 				// Allow for additional types
 				$mtd = '_put' . strtolower($type);
@@ -2346,12 +2344,13 @@ class FPDF
 		}
 	}
 
-	protected function tounicodecmap($uv) : string
+	private function toUnicodecMap(array $uv) : string
 	{
 		$ranges = '';
 		$nbr = 0;
 		$chars = '';
 		$nbc = 0;
+
 		foreach ($uv as $c => $v) {
 			if (is_array($v)) {
 				$ranges .= sprintf("<%02X> <%02X> <%04X>\n", $c, $c + $v[1] - 1, $v[0]);
@@ -2361,6 +2360,7 @@ class FPDF
 				$nbc++;
 			}
 		}
+
 		$s = "/CIDInit /ProcSet findresource begin\n";
 		$s .= "12 dict begin\n";
 		$s .= "begincmap\n";
@@ -2387,59 +2387,59 @@ class FPDF
 		$s .= "endcmap\n";
 		$s .= "CMapName currentdict /CMap defineresource pop\n";
 		$s .= "end\n";
-		$s .= "end";
+		$s .= 'end';
 
 		return $s;
 	}
 
-	protected function putimages() : void
+	private function bufferImages() : void
 	{
 		foreach (array_keys($this->images) as $file) {
-			$this->putimage($this->images[$file]);
+			$this->bufferImage($this->images[$file]);
 			unset($this->images[$file]['data']);
 			unset($this->images[$file]['smask']);
 		}
 	}
 
-	protected function putimage(&$info) : void
+	private function bufferImage(array &$info) : void
 	{
-		$this->newobj();
+		$this->bufferPreparation();
 		$info['n'] = $this->n;
-		$this->put('<</Type /XObject');
-		$this->put('/Subtype /Image');
-		$this->put('/Width ' . $info['w']);
-		$this->put('/Height ' . $info['h']);
+		$this->buffer .= '<</Type /XObject' . PHP_EOL;
+		$this->buffer .= '/Subtype /Image' . PHP_EOL;
+		$this->buffer .= '/Width ' . $info['w'] . PHP_EOL;
+		$this->buffer .= '/Height ' . $info['h'] . PHP_EOL;
 
 		if ($info['cs'] === 'Indexed') {
-			$this->put('/ColorSpace [/Indexed /DeviceRGB ' . (strlen($info['pal']) / 3 - 1) . ' ' . ($this->n + 1) . ' 0 R]');
+			$this->bufferOutput('/ColorSpace [/Indexed /DeviceRGB ' . (strlen($info['pal']) / 3 - 1) . ' ' . ($this->n + 1) . ' 0 R]');
 		} else {
-			$this->put('/ColorSpace /' . $info['cs']);
+			$this->bufferOutput('/ColorSpace /' . $info['cs']);
 			if ($info['cs'] === 'DeviceCMYK') {
-				$this->put('/Decode [1 0 1 0 1 0 1 0]');
+				$this->bufferOutput('/Decode [1 0 1 0 1 0 1 0]');
 			}
 		}
 
-		$this->put('/BitsPerComponent ' . $info['bpc']);
+		$this->bufferOutput('/BitsPerComponent ' . $info['bpc']);
 		if (isset($info['f'])) {
-			$this->put('/Filter /' . $info['f']);
+			$this->bufferOutput('/Filter /' . $info['f']);
 		}
 		if (isset($info['dp'])) {
-			$this->put('/DecodeParms <<' . $info['dp'] . '>>');
+			$this->bufferOutput('/DecodeParms <<' . $info['dp'] . '>>');
 		}
 		if (isset($info['trns']) && is_array($info['trns'])) {
 			$trns = '';
 			foreach ($info['trns'] as $info_trns) {
 				$trns .= $info_trns . ' ' . $info_trns . ' ';
 			}
-			$this->put('/Mask [' . $trns . ']');
+			$this->bufferOutput('/Mask [' . $trns . ']');
 		}
 
 		if (isset($info['smask'])) {
-			$this->put('/SMask ' . ($this->n + 1) . ' 0 R');
+			$this->bufferOutput('/SMask ' . ($this->n + 1) . ' 0 R');
 		}
-		$this->put('/Length ' . strlen($info['data']) . '>>');
-		$this->putstream($info['data']);
-		$this->put('endobj');
+		$this->bufferOutput('/Length ' . strlen($info['data']) . '>>');
+		$this->bufferStream($info['data']);
+		$this->bufferOutput('endobj');
 
 		// Soft mask
 		if (isset($info['smask'])) {
@@ -2453,50 +2453,53 @@ class FPDF
 				'dp' => $dp,
 				'data' => $info['smask']
 			);
-			$this->putimage($smask);
+			$this->bufferImage($smask);
 		}
 
 		// Palette
-		if ($info['cs'] == 'Indexed') {
-			$this->putstreamobject($info['pal']);
+		if ($info['cs'] === 'Indexed') {
+			$this->bufferStreamObject($info['pal']);
 		}
 	}
 
-	protected function putxobjectdict() : void
+	private function bufferXObjectDict() : void
 	{
 		foreach ($this->images as $image) {
-			$this->put('/I' . $image['i'] . ' ' . $image['n'] . ' 0 R');
+			$this->buffer .= '/I' . $image['i'] . ' ' . $image['n'] . ' 0 R' . PHP_EOL;
 		}
 	}
 
-	protected function putresourcedict() : void
+	private function bufferResourceDict() : void
 	{
-		$this->put('/ProcSet [/PDF /Text /ImageB /ImageC /ImageI]');
-		$this->put('/Font <<');
+		$this->buffer .= '/ProcSet [/PDF /Text /ImageB /ImageC /ImageI]' . PHP_EOL;
+		$this->buffer .= '/Font <<' . PHP_EOL;
 		foreach ($this->fonts as $font) {
-			$this->put('/F' . $font['i'] . ' ' . $font['n'] . ' 0 R');
+			$this->buffer .= '/F' . $font['i'] . ' ' . $font['n'] . ' 0 R' . PHP_EOL;
 		}
-		$this->put('>>');
-		$this->put('/XObject <<');
-		$this->putxobjectdict();
-		$this->put('>>');
+		$this->buffer .= '>>' . PHP_EOL;
+		$this->buffer .= '/XObject <<' . PHP_EOL;
+		$this->bufferXObjectDict();
+		$this->buffer .= '>>' . PHP_EOL;
 	}
 
-	protected function putresources() : void
+	private function bufferResources() : void
 	{
-		$this->putfonts();
-		$this->putimages();
+		$this->bufferFonts();
+		$this->bufferImages();
 
 		// Resource dictionary
-		$this->newobj(2);
-		$this->put('<<');
-		$this->putresourcedict();
-		$this->put('>>');
-		$this->put('endobj');
+		$this->bufferPreparation(2);
+		$this->buffer .= '<<' . PHP_EOL;
+		$this->bufferResourceDict();
+		$this->buffer .= '>>' . PHP_EOL;
+		$this->buffer .= 'endobj' . PHP_EOL;
 	}
 
 	private function bufferMetadata() : void
 	{
+		$this->bufferPreparation();
+		$this->buffer .= '<<' . PHP_EOL;
+
 		$this->buffer .= '/Producer ' . $this->textstring('FPDF ' . self::VERSION) . PHP_EOL;
 		$this->buffer .= '/CreationDate ' . $this->textstring(date('YmdHis')) . PHP_EOL;
 
@@ -2515,82 +2518,83 @@ class FPDF
 		if ($this->document_title !== null) {
 			$this->buffer .= '/Title ' . $this->textstring($this->document_title) . PHP_EOL;
 		}
+
+		$this->buffer .= '>>' . PHP_EOL;
+		$this->buffer .= 'endobj' . PHP_EOL;
 	}
 
-	protected function putcatalog() : void
+	private function bufferCatalog() : void
 	{
+		$this->bufferPreparation();
+		$this->buffer .= '<<' . PHP_EOL;
+
 		$n = $this->page_info[1]['n'];
-		$this->put('/Type /Catalog');
-		$this->put('/Pages 1 0 R');
+		$this->buffer .= '/Type /Catalog' . PHP_EOL;
+		$this->buffer .= '/Pages 1 0 R' . PHP_EOL;
 
 		if ($this->zoom_mode === 'fullpage') {
-			$this->put('/OpenAction [' . $n . ' 0 R /Fit]');
+			$this->buffer .= '/OpenAction [' . $n . ' 0 R /Fit]' . PHP_EOL;
 		} elseif ($this->zoom_mode === 'fullwidth') {
-			$this->put('/OpenAction [' . $n . ' 0 R /FitH null]');
+			$this->buffer .= '/OpenAction [' . $n . ' 0 R /FitH null]' . PHP_EOL;
 		} elseif ($this->zoom_mode === 'real') {
-			$this->put('/OpenAction [' . $n . ' 0 R /XYZ null null 1]');
+			$this->buffer .= '/OpenAction [' . $n . ' 0 R /XYZ null null 1]' . PHP_EOL;
 		} elseif (is_int($this->zoom_mode)) {
-			$this->put('/OpenAction [' . $n . ' 0 R /XYZ null null ' . sprintf('%.2F', $this->zoom_mode / 100) . ']');
+			$this->buffer .= '/OpenAction [' . $n . ' 0 R /XYZ null null ' . sprintf('%.2F', $this->zoom_mode / 100) . ']' . PHP_EOL;
 		}
 
 		if ($this->layout_mode === 'single') {
-			$this->put('/PageLayout /SinglePage');
+			$this->buffer .= '/PageLayout /SinglePage' . PHP_EOL;
 		} elseif ($this->layout_mode === 'continuous') {
-			$this->put('/PageLayout /OneColumn');
+			$this->buffer .= '/PageLayout /OneColumn' . PHP_EOL;
 		} elseif ($this->layout_mode === 'two') {
-			$this->put('/PageLayout /TwoColumnLeft');
+			$this->buffer .= '/PageLayout /TwoColumnLeft' . PHP_EOL;
 		}
+
+		$this->buffer .= '>>' . PHP_EOL;
+		$this->buffer .= 'endobj' . PHP_EOL;
 	}
 
-	protected function putheader() : void
+	private function bufferTrailer() : void
 	{
-		$this->put('%PDF-' . $this->PDFVersion);
+		$this->buffer .= 'trailer' . PHP_EOL;
+		$this->buffer .= '<<' . PHP_EOL;
+
+		$this->buffer .= '/Size ' . ($this->n + 1) . PHP_EOL;
+		$this->buffer .= '/Root ' . $this->n . ' 0 R' . PHP_EOL;
+		$this->buffer .= '/Info ' . ($this->n - 1) . ' 0 R' . PHP_EOL;
+
+		$this->buffer .= '>>' . PHP_EOL;
 	}
 
-	protected function puttrailer() : void
+	private function endDoc() : void
 	{
-		$this->put('/Size ' . ($this->n + 1));
-		$this->put('/Root ' . $this->n . ' 0 R');
-		$this->put('/Info ' . ($this->n - 1) . ' 0 R');
-	}
+		$this->buffer .= '%PDF-' . $this->PDFVersion . PHP_EOL;
 
-	protected function enddoc() : void
-	{
-		$this->putheader();
-		$this->putpages();
-		$this->putresources();
+		$this->bufferPages();
+		$this->bufferResources();
 
-		// Info
-		$this->newobj();
-		$this->put('<<');
+		// Metadata
 		$this->bufferMetadata();
-		$this->put('>>');
-		$this->put('endobj');
 
 		// Catalog
-		$this->newobj();
-		$this->put('<<');
-		$this->putcatalog();
-		$this->put('>>');
-		$this->put('endobj');
+		$this->bufferCatalog();
 
 		// Cross-ref
-		$offset = $this->getoffset();
-		$this->put('xref');
-		$this->put('0 ' . ($this->n + 1));
-		$this->put('0000000000 65535 f ');
+		$buffer_size = $this->bufferSize();
+		$this->buffer .= 'xref' . PHP_EOL;
+		$this->buffer .= '0 ' . ($this->n + 1) . PHP_EOL;
+		$this->buffer .= '0000000000 65535 f ' . PHP_EOL;
 		for ($i = 1; $i <= $this->n; $i++) {
-			$this->put(sprintf('%010d 00000 n ', $this->offsets[$i]));
+			$this->buffer .= sprintf('%010d 00000 n ', $this->offsets[$i]) . PHP_EOL;
 		}
 
 		// Trailer
-		$this->put('trailer');
-		$this->put('<<');
-		$this->puttrailer();
-		$this->put('>>');
-		$this->put('startxref');
-		$this->put($offset);
-		$this->put('%%EOF');
+		$this->bufferTrailer();
+
+		$this->buffer .= 'startxref' . PHP_EOL;
+		$this->buffer .= $buffer_size . PHP_EOL;
+		$this->buffer .= '%%EOF' . PHP_EOL;
+
 		$this->state = 3;
 	}
 }
